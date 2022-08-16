@@ -6,13 +6,13 @@
 #    By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 20:34:13 by pszleper          #+#    #+#              #
-#    Updated: 2022/08/16 21:19:40 by pszleper         ###   ########.fr        #
+#    Updated: 2022/08/16 21:31:40 by pszleper         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror -c
+FLAGS = -Wall -Wextra -Werror -c -std=c11 -ggdb3
 
 NAME0 = minishell
 
