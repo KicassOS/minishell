@@ -6,7 +6,7 @@
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/16 22:07:54 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:44:08 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 int	main()
 {
-	char	*input;
+	char				*input;
+	struct sigaction	s_sigaction;
 
+	s_sigaction.sa_sigaction = ft_sigint_handler;
+	s_sigaction.sa_flags = SA_SIGINFO;
+	sigaction(SIGINT, &s_sigaction, NULL);
 	input = readline("minish> ");
 	while (input && ft_strncmp(ft_trim_whitespace(input), "exit", 4) != 0)
 	{

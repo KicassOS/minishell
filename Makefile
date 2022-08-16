@@ -6,20 +6,19 @@
 #    By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 20:34:13 by pszleper          #+#    #+#              #
-#    Updated: 2022/08/16 21:31:40 by pszleper         ###   ########.fr        #
+#    Updated: 2022/08/16 22:27:21 by pszleper         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror -c -std=c11 -ggdb3
+FLAGS = -Wall -Wextra -Werror -c
 
 NAME0 = minishell
 
 HEADER = minishell.h
 
-
-SRC_MINISHELL = main.c utils.c
+SRC_MINISHELL = main.c utils.c signal.c
 
 OBJECTS_MINISHELL = $(SRC_MINISHELL:.c=.o)
 
