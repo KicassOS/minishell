@@ -6,7 +6,7 @@
 #    By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 20:34:13 by pszleper          #+#    #+#              #
-#    Updated: 2022/08/16 20:42:13 by pszleper         ###   ########.fr        #
+#    Updated: 2022/08/16 21:19:40 by pszleper         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ libft.a:
 	cp Libft/libft.h .
 
 $(NAME0): libft.a $(OBJECTS_MINISHELL)
-	$(CC) $(OBJECTS_MINISHELL)  libft.a -lreadline $(HEADER) -o $(NAME0)
+	$(CC) $(OBJECTS_MINISHELL) libft.a -lreadline $(HEADER) -o $(NAME0)
 
 %.o: %.c
 	 $(CC) $(FLAGS) $< -o $@

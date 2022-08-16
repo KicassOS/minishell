@@ -6,7 +6,7 @@
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/16 20:43:15 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/08/16 21:18:07 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ int	main()
 	while (ft_strncmp(ft_trim_whitespace(input), "exit", ft_strlen(input)) != 0)
 	{
 		printf("The line input was: %s\n", input);
+		add_history(input);
 		free(input);
 		input = readline("minish> ");
 	}
+	rl_clear_history();
 	free(input);
 	return (0);
 }
