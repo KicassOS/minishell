@@ -6,7 +6,7 @@
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/19 20:35:47 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:14:37 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <errno.h>
+# include <unistd.h>
 # include "libft.h"
 
 char	*ft_trim_whitespace(char *str);
@@ -30,5 +31,6 @@ void	ft_setup_signal(void);
 /* builtins */
 void	ft_echo(char *argument, char *flag);
 void	ft_pwd(void);
+void	ft_cd(char *destination);
 
 #endif
