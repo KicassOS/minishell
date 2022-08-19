@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/19 21:27:49 by pszleper         ###   ########.fr       */
+/*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
+/*   Updated: 2022/08/19 21:41:20 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	ft_exit(char *input)
 {
-	char				*input;
-
-	(void) ac;
-	(void) av;
-	(void) env;
-	ft_setup_signal();
-	input = readline("minish> ");
-	while (input && ft_strncmp(ft_trim_whitespace(input), "exit", 4) != 0)
-	{
-		printf("The line input was: %s\n", input);
-		add_history(input);
-		free(input);
-		input = readline("minish> ");
-	}
-	ft_exit(input);
-	return (0);
+	rl_clear_history();
+	ft_free((void **) &input);
+	exit(0);
 }
