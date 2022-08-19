@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/19 21:09:52 by pszleper         ###   ########.fr       */
+/*   Created: 2022/08/19 21:07:40 by pszleper          #+#    #+#             */
+/*   Updated: 2022/08/19 21:19:21 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	ft_env(char **env)
 {
-	char				*input;
+	size_t	i;
 
-	ft_setup_signal();
-	input = readline("minish> ");
-	while (input && ft_strncmp(ft_trim_whitespace(input), "exit", 4) != 0)
+	i = 0;
+	while (env[i])
 	{
-		printf("The line input was: %s\n", input);
-		add_history(input);
-		free(input);
-		input = readline("minish> ");
+		printf("%s\n", env[i]);
+		i++;
 	}
-	rl_clear_history();
-	free(input);
-	return (0);
 }
