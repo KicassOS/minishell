@@ -6,7 +6,7 @@
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/19 21:22:02 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/08/19 22:15:17 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ void	ft_pwd(void);
 void	ft_cd(char *destination);
 void	ft_env(char **env);
 void	ft_exit(char *input);
+void	ft_export(char **env);
 
 #endif

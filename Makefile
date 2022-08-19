@@ -6,7 +6,7 @@
 #    By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 20:34:13 by pszleper          #+#    #+#              #
-#    Updated: 2022/08/19 22:12:40 by pszleper         ###   ########.fr        #
+#    Updated: 2022/08/19 22:15:23 by pszleper         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME0 = minishell
 HEADER = minishell.h
 
 SRC_MINISHELL = main.c utils.c signal.c builtins/cd.c builtins/echo.c \
-	builtins/env.c builtins/exit.c builtins/pwd.c
+	builtins/env.c builtins/exit.c builtins/pwd.c builtins/export.c
 
 OBJECTS_MINISHELL = $(SRC_MINISHELL:.c=.o)
 
