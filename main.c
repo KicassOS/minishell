@@ -6,7 +6,7 @@
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/19 22:30:02 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/08/19 23:30:53 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av, char **env)
 {
-	char				*input;
+	char	*input;
 
 	(void) ac;
 	(void) av;
@@ -28,6 +28,6 @@ int	main(int ac, char **av, char **env)
 		free(input);
 		input = readline("minish> ");
 	}
-	ft_exit(0, &input);
+	ft_exit(&input);
 	return (0);
 }

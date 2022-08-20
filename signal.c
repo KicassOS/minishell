@@ -6,7 +6,7 @@
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 22:10:06 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/17 19:00:22 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/08/20 00:52:26 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ void	ft_setup_signal(void)
 
 	s_sigaction.sa_sigaction = ft_sigint_handler;
 	s_sigaction.sa_flags = SA_SIGINFO;
+	sigemptyset(&s_sigaction.sa_mask);
 	sigaction(SIGINT, &s_sigaction, NULL);
 }
