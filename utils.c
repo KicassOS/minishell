@@ -6,7 +6,7 @@
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:35:22 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/20 00:46:48 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/08/20 08:07:18 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	*ft_malloc(size_t num_bytes)
 	{
 		perror(NULL);
 		exit(errno);
-		return (NULL);
 	}
 	while (i < num_bytes)
 	{
@@ -49,7 +48,6 @@ char	*ft_trim_whitespace(char *str)
 
 	start = 0;
 	end = ft_strlen(str) - 1;
-	trimmed = ft_malloc(ft_strlen(str) + 1);
 	while (str[start] && ft_is_space(str[start]))
 		start++;
 	while (str[end] && ft_is_space(str[end]))

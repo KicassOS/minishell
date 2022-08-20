@@ -6,7 +6,7 @@
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/19 23:36:50 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/08/20 08:16:54 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_echo(char *argument, char *flag);
 void	ft_pwd(void);
 void	ft_cd(char *destination);
 void	ft_env(char **env);
-void	ft_exit(char **input);
+void	ft_exit(char **input, char **trimmed);
 void	ft_export(char **env);
 
 #endif

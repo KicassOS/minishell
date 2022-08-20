@@ -6,7 +6,7 @@
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/20 00:03:44 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/08/20 08:17:32 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,17 @@ int	ft_handle_exit_code(char *input)
 /*
   Clears the shell's history
   Frees input buffer
-  Exits the shell with 'status' code
+  Exits the shell with the status code parsed by ft_handle_exit_code
   The exit code is a single byte, so the maximum value for it is 255
   Any values above that get wrapped around
 */
-void	ft_exit(char **input)
+void	ft_exit(char **input, char **trimmed)
 {
-	int		status;
+	int	status_code;
 
-	status = ft_handle_exit_code(*input);
+	status_code = ft_handle_exit_code(*trimmed);
 	rl_clear_history();
 	ft_free((void **) input);
-	exit(status);
+	ft_free((void **) trimmed);
+	exit(status_code);
 }
