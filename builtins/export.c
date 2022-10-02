@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/02 16:02:59 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:07:06 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	ft_print_env_declarations(t_list *my_env)
 	}
 }
 
-static int	ft_count_args(char **args)
+int	ft_count_args(char **args)
 {
 	int	i;
 
@@ -39,6 +39,7 @@ char	ft_export(t_list *my_env, char **args)
 {
 	int		arg_count;
 	t_list	*new_node;
+	int		i;
 
 	if (!args || !args[0])
 	{
@@ -46,12 +47,12 @@ char	ft_export(t_list *my_env, char **args)
 		return (EXIT_SUCCESS);
 	}
 	arg_count = ft_count_args(args);
-	if (arg_count > 1)
+	i = 0;
+	while (i < arg_count)
 	{
-		ft_putstr_fd("Export received too many arguments, expected only one\n", STDERR_FILENO);
-		return (EXIT_FAILURE);
+		new_node = ft_lstnew(args[i]);
+		ft_lstadd_back(&my_env, new_node);
+		i++;
 	}
-	new_node = ft_lstnew(args[0]);
-	ft_lstadd_back(&my_env, new_node);
 	return (EXIT_SUCCESS);
 }
