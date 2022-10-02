@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/02 17:24:48 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/02 17:47:07 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ int	main(int ac, char **av, char **env)
 			args_mockup[1] = "\0";
 			ft_export(my_env, args_mockup);
 			// ft_print_list(my_env);
+		}
+		else if (ft_strncmp(trimmed, "env", 3) == 0)
+		{
+			ft_env(&my_env);
 		}
 		add_history(input);
 		ft_free((void **) &input);
