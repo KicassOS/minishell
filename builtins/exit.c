@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/08/20 08:17:32 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/02 16:43:20 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_handle_exit_code(char *input)
   The exit code is a single byte, so the maximum value for it is 255
   Any values above that get wrapped around
 */
-void	ft_exit(char **input, char **trimmed)
+void	ft_exit(char **input, char **trimmed, t_list **my_env)
 {
 	int	status_code;
 
@@ -56,5 +56,6 @@ void	ft_exit(char **input, char **trimmed)
 	rl_clear_history();
 	ft_free((void **) input);
 	ft_free((void **) trimmed);
+	ft_lstfree(my_env);
 	exit(status_code);
 }
