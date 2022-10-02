@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:35:22 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/02 16:49:39 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:42:05 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,32 +54,4 @@ char	*ft_trim_whitespace(char *str)
 		end--;
 	trimmed = ft_substr(str, start, end - start + 1);
 	return (trimmed);
-}
-
-/*
-  same as libft, but prints error message and exits on malloc error
-*/
-t_list	*ft_lstnew_safe(void *content)
-{
-	t_list	*element;
-
-	element = ft_malloc(sizeof(t_list));
-	element->content = content;
-	element->next = NULL;
-	return (element);
-}
-
-/*
-  frees list whose head is pointed to by lst
-*/
-void	ft_lstfree(t_list **lst)
-{
-	t_list	*temp;
-
-	while (*lst)
-	{
-		temp = ((*lst)->next);
-		ft_free((void **)&*lst);
-		*lst = temp;
-	}
 }

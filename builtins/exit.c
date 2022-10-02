@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/02 16:43:20 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:44:33 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ void	ft_exit(char **input, char **trimmed, t_list **my_env)
 	rl_clear_history();
 	ft_free((void **) input);
 	ft_free((void **) trimmed);
-	ft_lstfree(my_env);
+	ft_free_env_list(my_env);
 	exit(status_code);
 }
