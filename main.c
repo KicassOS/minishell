@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 04:08:47 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/03 05:12:50 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,28 @@ int	main(int ac, char **av, char **env)
 			args_mockup[1] = "WORKING";
 			args_mockup[2] = "\0";
 			ft_unset(my_env, args_mockup);
+		}
+		else if (ft_strncmp(trimmed, "cd", 2) == 0)
+		{
+			ft_free(&trimmed);
+			char *args_mockup[2];
+			args_mockup[0] = "../subjects";
+			args_mockup[1] = "\0";
+			ft_cd(my_env, args_mockup);
+		}
+		else if (ft_strncmp(trimmed, "echo", 4) == 0)
+		{
+			ft_free(&trimmed);
+			char *args_mockup[3];
+			args_mockup[0] = "Hello World";
+			args_mockup[1] = "-n";
+			args_mockup[2] = "\0";
+			ft_echo(args_mockup[0], args_mockup[1]);
+		}
+		else if (ft_strncmp(trimmed, "pwd", 3) == 0)
+		{
+			ft_free(&trimmed);
+			ft_pwd();
 		}
 		add_history(input);
 		ft_free((void **) &input);
