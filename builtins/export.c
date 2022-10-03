@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 03:51:12 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/03 04:07:39 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	ft_export(t_list *my_env, char **args)
 	i = 0;
 	while (i < arg_count)
 	{
-		if (ft_not_duplicate(my_env, args[i]))
+		if (!ft_find_env_variable(&my_env, args[i]))
 		{
 			new_node = ft_env_new_node((void *) args[i]);
 			ft_lstadd_back(&my_env, new_node);

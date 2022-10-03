@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 03:34:47 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/03 04:08:47 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ int	main(int ac, char **av, char **env)
 		if (ft_strncmp(trimmed, "export", 6) == 0)
 		{
 			// CHANGE THE ARG MOCKUP ARRAY TO ACTUAL PARSING
-			char *args_mockup[4];
+			char *args_mockup[5];
 			ft_free((void **) &trimmed);
 			args_mockup[0] = "TEST=HAHA";
 			args_mockup[1] = "WORKING=YES";
-			args_mockup[2] = "UNSET_THIS=NOPE";
-			args_mockup[3] = "\0";
+			args_mockup[2] = "UNSET_THIS=NOPE"; // duplicate check
+			args_mockup[3] = "UNSET_THIS=NOPE";
+			args_mockup[4] = "\0";
 			ft_export(my_env, args_mockup);
 			// ft_print_list(my_env);
 		}
