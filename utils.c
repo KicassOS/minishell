@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:35:22 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/02 18:42:05 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/03 04:32:24 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*ft_malloc(size_t num_bytes)
 	if (allocated == NULL)
 	{
 		perror(NULL);
-		exit(errno);
+		exit(MALLOC_ERROR);
 	}
 	while (i < num_bytes)
 	{

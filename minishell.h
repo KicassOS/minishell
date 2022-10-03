@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 03:05:48 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/03 04:34:59 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 # include <errno.h>
 # include <unistd.h>
 # include "libft.h"
+
+# define MALLOC_ERROR 5
+# define CHDIR_ERROR 6
+# define PWD_ERROR 7
 
 /* utils.c */
 char	*ft_trim_whitespace(char *str);
