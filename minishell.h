@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 04:34:59 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/03 04:42:34 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_setup_signal(void);
 /* builtins */
 void	ft_echo(char *argument, char *flag);
 void	ft_pwd(void);
-void	ft_cd(char *destination);
+char	ft_cd(char *destination);
 char	ft_env(t_list **env);
 void	ft_exit(char **input, char **trimmed, t_list **my_env);
 char	ft_export(t_list *my_env, char **args);
