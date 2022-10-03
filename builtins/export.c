@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 03:05:48 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/03 03:51:12 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,6 @@ static void	ft_print_env_declarations(t_list *my_env)
 	}
 }
 
-int	ft_count_subarrays(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i] && args[i][0])
-		i++;
-	return (i);
-}
-
 char	ft_export(t_list *my_env, char **args)
 {
 	int		arg_count;
@@ -50,8 +40,11 @@ char	ft_export(t_list *my_env, char **args)
 	i = 0;
 	while (i < arg_count)
 	{
-		new_node = ft_lstnew(args[i]);
-		ft_lstadd_back(&my_env, new_node);
+		if (ft_not_duplicate(my_env, args[i]))
+		{
+			new_node = ft_env_new_node((void *) args[i]);
+			ft_lstadd_back(&my_env, new_node);
+		}
 		i++;
 	}
 	return (EXIT_SUCCESS);
