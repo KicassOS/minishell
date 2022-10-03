@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 03:49:29 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 03:59:53 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/03 05:04:59 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,24 @@ void	ft_delete_env_node(t_list **env, char *needle)
 		}
 		current = current->next;
 	}
+}
+
+char	*ft_get_env_variable_value(t_list **my_env, char *needle)
+{
+	t_list	*current;
+	char	*search_result;
+	char	*env_value;
+
+	current = *my_env;
+	while (current)
+	{
+		search_result = ft_strnstr(current->content, needle, ft_strlen(needle));
+		if (search_result)
+		{
+			env_value = ft_extract_variable_value(search_result);
+			return (env_value);
+		}
+		current = current->next;
+	}
+	return (NULL);
 }

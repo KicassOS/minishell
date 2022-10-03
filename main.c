@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 05:12:50 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/03 18:53:41 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,32 @@ int	main(int ac, char **av, char **env)
 		}
 		else if (ft_strncmp(trimmed, "cd", 2) == 0)
 		{
-			ft_free(&trimmed);
-			char *args_mockup[2];
-			args_mockup[0] = "../subjects";
+			ft_free((void **)&trimmed);
+			char *args_mockup[3];
+			args_mockup[0] = "../subjects"; // normal path
 			args_mockup[1] = "\0";
-			ft_cd(my_env, args_mockup);
+			ft_cd(&my_env, args_mockup);
+			ft_pwd();
+			args_mockup[0] = '\0'; // no arguments
+			ft_cd(&my_env, args_mockup);
+			ft_pwd();
+			args_mockup[0] = "../subjects";
+			args_mockup[1] = "../minishell"; // too many arguments
+			args_mockup[2] = "\0";
+			ft_cd(&my_env, args_mockup);
+			args_mockup[0] = "Desktop/42/minishell"; // OLDPWD test
+			args_mockup[1] = "\0";
+			ft_cd(&my_env, args_mockup);
+			ft_pwd();
+			args_mockup[0] = "\0";
+			ft_cd(&my_env, args_mockup);
+			ft_pwd(); // should be equal to HOME
+			ft_cd(&my_env, args_mockup);
+			ft_pwd(); // should be equal to /home/psz/Desktop/42/minishell AKA OLDPWD
 		}
 		else if (ft_strncmp(trimmed, "echo", 4) == 0)
 		{
-			ft_free(&trimmed);
+			ft_free((void **)&trimmed);
 			char *args_mockup[3];
 			args_mockup[0] = "Hello World";
 			args_mockup[1] = "-n";
@@ -104,7 +121,7 @@ int	main(int ac, char **av, char **env)
 		}
 		else if (ft_strncmp(trimmed, "pwd", 3) == 0)
 		{
-			ft_free(&trimmed);
+			ft_free((void **)&trimmed);
 			ft_pwd();
 		}
 		add_history(input);
