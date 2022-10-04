@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 05:03:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/04 13:36:07 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/04 23:05:52 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ char	*ft_extract_variable_name(char *content)
 
 /*
   Modifies the node containing oldval, changing its' content to newval
-  Returns the address of the node in question or NULL if it couldn't find it
+  Returns the address of the node in question
+  If the node can't be found, creates a new node containing newval
+  and adds it to my_env, then returns the node's address
 */
 t_list	*ft_modify_env_var_value(t_list **my_env, char *oldval, char *newval)
 {
@@ -58,7 +60,11 @@ t_list	*ft_modify_env_var_value(t_list **my_env, char *oldval, char *newval)
 
 	node = ft_find_env_variable(my_env, oldval);
 	if (node == NULL)
-		return (NULL);
+	{
+		node = ft_env_new_node((void *) newval);
+		ft_lstadd_back(my_env, node);
+		return (node);
+	}
 	//ft_free((void **) &node->content); UNCOMMENT THIS ONCE THE PARSING IS DONE
 	node->content = newval;
 	return (node);

@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 03:49:29 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/04 22:33:10 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/04 22:52:18 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ void	ft_delete_env_node(t_list **env, char *needle)
 
 /*
 	Finds the node in the environment my_env containing needle
-	Returns the part after the =, NULL if it couldn't find the node
+	Returns the part after the = as a malloc'd string
+	Returns NULL if it couldn't find the node
 */
 char	*ft_get_env_variable_value(t_list **my_env, char *needle)
 {

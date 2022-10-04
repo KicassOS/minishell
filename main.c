@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/04 13:30:47 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/04 23:10:27 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,18 +90,15 @@ int	main(int ac, char **av, char **env)
 		{
 			ft_free((void **)&trimmed);
 			char *args_mockup[3];
-			args_mockup[0] = "../subjects"; // normal path
+			args_mockup[0] = "../minitalk"; // normal path
 			args_mockup[1] = "\0";
-			ft_cd(&my_env, args_mockup);
-			ft_pwd();
-			args_mockup[0] = '\0'; // no arguments
 			ft_cd(&my_env, args_mockup);
 			ft_pwd();
 			args_mockup[0] = "../subjects";
 			args_mockup[1] = "../minishell"; // too many arguments
 			args_mockup[2] = "\0";
 			ft_cd(&my_env, args_mockup);
-			args_mockup[0] = "Desktop/42/minishell"; // OLDPWD test
+			args_mockup[0] = "~/Desktop/42/minishell"; // this is going to be OLDPWD
 			args_mockup[1] = "\0";
 			ft_cd(&my_env, args_mockup);
 			ft_pwd();
@@ -110,6 +107,10 @@ int	main(int ac, char **av, char **env)
 			ft_pwd(); // should be equal to HOME
 			ft_cd(&my_env, args_mockup);
 			ft_pwd(); // should be equal to /home/psz/Desktop/42/minishell AKA OLDPWD
+			args_mockup[0] = "thisisannonexistentpath";
+			args_mockup[1] = "\0";
+			ft_cd(&my_env, args_mockup);
+			ft_pwd(); // the ft_cd call above should return an error and not change directory
 		}
 		else if (ft_strncmp(trimmed, "echo", 4) == 0)
 		{
