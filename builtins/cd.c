@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 20:50:09 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 18:41:15 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:00:02 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static char	ft_handle_no_destination(t_list **my_env)
 	return (EXIT_SUCCESS);
 }
 
-// add cd too many arguments
 // add cd toggle between HOME and OLDPWD
 char	ft_cd(t_list **my_env, char **args)
 {
