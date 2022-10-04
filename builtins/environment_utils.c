@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 03:49:29 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/04 11:24:39 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/04 22:33:10 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_list	*ft_env_new_node(void *content)
 
 /*
   Frees list whose head is pointed to by lst
-  Todo free node content too once we switched to malloc'd parsing
 */
 void	ft_free_env_list(t_list **lst)
 {
@@ -36,24 +35,31 @@ void	ft_free_env_list(t_list **lst)
 	while (*lst)
 	{
 		temp = ((*lst)->next);
-		ft_free((void **)&*lst);
+		// ft_free((void **) &lst->content) UNCOMMENT ONCE CONTENT IS MALLOC'D
+		ft_free((void **) lst);
 		*lst = temp;
 	}
 }
 
 /*
-  Returns a pointer to the t_list struct who contains content_to_find
+  Returns a pointer to the t_list struct whose environment var name is to_find
   Returns NULL if it couldnt find the node
 */
 t_list	*ft_find_env_variable(t_list **env, char *to_find)
 {
 	t_list	*current;
+	char	*var_name;
 
 	current = *env;
 	while (current)
 	{
-		if (ft_strncmp(current->content, to_find, ft_strlen(to_find)) == 0)
+		var_name = ft_extract_variable_name(current->content);
+		if (ft_strncmp(var_name, to_find, ft_strlen(to_find)) == 0)
+		{
+			ft_free((void **) &var_name);
 			return (current);
+		}
+		ft_free((void **) &var_name);
 		current = current->next;
 	}
 	return (NULL);

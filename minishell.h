@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/04 12:03:54 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:50:29 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*ft_get_env_variable_value(t_list **my_env, char *needle);
 /* environment_utils_2.c */
 char	ft_is_valid_env_variable(char *variable);
 char	*ft_extract_variable_value(char *content);
+char	*ft_extract_variable_name(char *content);
 t_list	*ft_modify_env_var_value(t_list **my_env, char *oldval, char *newval);
 
 /* signal.c */
