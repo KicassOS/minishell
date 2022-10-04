@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 03:49:29 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 05:04:59 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/04 11:24:39 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ t_list	*ft_find_env_variable(t_list **env, char *to_find)
   Deletes environment node containing needle
   No error if the function couldn't find any such node
   Function argument MUST be non-NULL as no check is done on their existence
-    todo free node content too once we switched to malloc'd parsing
-
 */
 void	ft_delete_env_node(t_list **env, char *needle)
 {
@@ -79,7 +77,8 @@ void	ft_delete_env_node(t_list **env, char *needle)
 		{
 			before_node = current;
 			current = current->next;
-			next_node = current->next;
+			next_node = current->next; 
+    		//todo free node content too once we switch to malloc'd parsing
 			ft_free((void **)&current);
 			before_node->next = next_node;
 			return ;
@@ -88,6 +87,10 @@ void	ft_delete_env_node(t_list **env, char *needle)
 	}
 }
 
+/*
+	Finds the node in the environment my_env containing needle
+	Returns the part after the =, NULL if it couldn't find the node
+*/
 char	*ft_get_env_variable_value(t_list **my_env, char *needle)
 {
 	t_list	*current;
