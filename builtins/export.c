@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/04 13:36:23 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/06 06:41:09 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	ft_main_loop(t_list **my_env, char **args, int i)
 		ft_lstadd_back(my_env, new_node);
 	}
 	else
-		ft_modify_env_var_value(my_env, var_name, args[i]);
+		ft_overwrite_env_var_value(my_env, var_name, args[i]);
 	ft_free((void **) &var_name);
 }
 
