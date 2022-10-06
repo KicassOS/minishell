@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 03:49:29 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/04 22:52:18 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/06 04:37:52 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,8 @@ t_list	*ft_env_new_node(void *content)
 }
 
 /*
-  Frees list whose head is pointed to by lst
-*/
-void	ft_free_env_list(t_list **lst)
-{
-	t_list	*temp;
-
-	while (*lst)
-	{
-		temp = ((*lst)->next);
-		// ft_free((void **) &lst->content) UNCOMMENT ONCE CONTENT IS MALLOC'D
-		ft_free((void **) lst);
-		*lst = temp;
-	}
-}
-
-/*
   Returns a pointer to the t_list struct whose environment var name is to_find
-  Returns NULL if it couldnt find the node
+  Returns NULL if it couldn't find the node
 */
 t_list	*ft_find_env_variable(t_list **env, char *to_find)
 {
@@ -94,26 +78,18 @@ void	ft_delete_env_node(t_list **env, char *needle)
 }
 
 /*
-	Finds the node in the environment my_env containing needle
+	Finds the node in the environment my_env whose name is needle
 	Returns the part after the = as a malloc'd string
 	Returns NULL if it couldn't find the node
 */
 char	*ft_get_env_variable_value(t_list **my_env, char *needle)
 {
-	t_list	*current;
-	char	*search_result;
+	t_list	*search_result;
 	char	*env_value;
 
-	current = *my_env;
-	while (current)
-	{
-		search_result = ft_strnstr(current->content, needle, ft_strlen(needle));
-		if (search_result)
-		{
-			env_value = ft_extract_variable_value(search_result);
-			return (env_value);
-		}
-		current = current->next;
-	}
-	return (NULL);
+	search_result = ft_find_env_variable(my_env, needle);
+	if (search_result == NULL)
+		return (NULL);
+	env_value = ft_extract_variable_value(search_result->content);
+	return (env_value);
 }

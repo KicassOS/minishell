@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 05:03:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/04 23:05:52 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/06 04:27:04 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /*
 	Calls ft_substr to get the part after the equal sign it finds
+	as a malloc'd string
 	Returns NULL if it reached the end of content without finding an equal
 */
 char	*ft_extract_variable_value(char *content)

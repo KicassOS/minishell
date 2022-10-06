@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/02 18:44:33 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/06 02:08:00 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,22 @@ int	ft_handle_exit_code(char *input)
 	statuscode = ft_atoi(statuscode_str);
 	ft_free((void **) &statuscode_str);
 	return (statuscode);
+}
+
+/*
+  Frees list whose head is pointed to by lst
+*/
+void	ft_free_env_list(t_list **lst)
+{
+	t_list	*temp;
+
+	while (*lst)
+	{
+		temp = ((*lst)->next);
+		// ft_free((void **) &lst->content) UNCOMMENT ONCE CONTENT IS MALLOC'D
+		ft_free((void **) lst);
+		*lst = temp;
+	}
 }
 
 /*
