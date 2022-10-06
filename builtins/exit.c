@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/06 02:08:00 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/06 05:33:21 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	ft_free_env_list(t_list **lst)
 {
 	t_list	*temp;
 
+	if (!lst)
+		return ;
 	while (*lst)
 	{
 		temp = ((*lst)->next);

@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 03:49:39 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 04:02:45 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/06 06:20:27 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,17 @@ int	ft_count_subarrays(char **args)
 	while (args[i] && args[i][0])
 		i++;
 	return (i);
+}
+
+char	*ft_getcwd(void)
+{
+	char	*cwd_string;
+
+	cwd_string = getcwd(NULL, 0);
+	if (cwd_string == NULL)
+	{
+		perror(NULL);
+		exit(PWD_ERROR);
+	}
+	return (cwd_string);
 }

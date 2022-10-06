@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/04 12:50:29 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/06 06:41:09 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_get_env_variable_value(t_list **my_env, char *needle);
 char	ft_is_valid_env_variable(char *variable);
 char	*ft_extract_variable_value(char *content);
 char	*ft_extract_variable_name(char *content);
-t_list	*ft_modify_env_var_value(t_list **my_env, char *oldval, char *newval);
+t_list	*ft_overwrite_env_var_value(t_list **my_env, char *oldval, char *newval);
 
 /* signal.c */
 void	ft_sigint_handler(int signal, siginfo_t *info, void *useless);
@@ -58,5 +58,6 @@ char	ft_unset(t_list *my_env, char **args);
 
 /* builtin_utils.c */
 int	ft_count_subarrays(char **args);
+char	*ft_getcwd(void);
 
 #endif
