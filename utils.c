@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:35:22 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 04:32:24 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/07 03:07:28 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,18 @@ char	*ft_trim_whitespace(char *str)
 		end--;
 	trimmed = ft_substr(str, start, end - start + 1);
 	return (trimmed);
+}
+
+int	ft_indexof_last_occurence(char *s, char c)
+{
+	int	pos;
+
+	pos = ft_strlen(s);
+	while (pos >= 0)
+	{
+		if (s[pos] == c)
+			return (pos);
+		pos--;
+	}
+	return (-1);
 }

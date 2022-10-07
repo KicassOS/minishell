@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/06 23:24:59 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/07 03:07:41 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_list	*ft_modify_env_var_value(t_list **my_env, char *name, char *value);
 /* environment_utils_3.c */
 char	*ft_create_env_value(char *name, char *value);
 
+
 /* signal.c */
 void	ft_sigint_handler(int signal, siginfo_t *info, void *useless);
 void	ft_setup_signal(void);
@@ -63,5 +64,8 @@ char	ft_unset(t_list *my_env, char **args);
 /* builtin_utils.c */
 int	ft_count_subarrays(char **args);
 char	*ft_getcwd(void);
+char	*ft_tilde_to_home(t_list **my_env, char *path);
+int	ft_indexof_last_occurence(char *s, char c);
+
 
 #endif
