@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 03:49:39 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/07 03:17:30 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/07 03:51:36 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char	*ft_tilde_to_home(t_list **my_env, char *path)
 
 	if (ft_indexof_last_occurence(path, '~') > 0)
 	{
-		ft_putstr_fd("cd: invalid path (~ found in invalid position)\n", STDERR_FILENO);
 		return (NULL);
 	}
 	if (path[0] == '~')

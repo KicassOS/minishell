@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/04 23:10:27 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/07 03:55:05 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,36 +81,56 @@ int	main(int ac, char **av, char **env)
 		{
 			ft_free((void **) &trimmed);
 			char *args_mockup[3];
-			args_mockup[0] = "TEST";
-			args_mockup[1] = "WORKING";
-			args_mockup[2] = "\0";
+			args_mockup[0] = ft_strdup("TEST");
+			args_mockup[1] = ft_strdup("WORKING");
+			args_mockup[2] = ft_strdup("\0");
 			ft_unset(my_env, args_mockup);
 		}
 		else if (ft_strncmp(trimmed, "cd", 2) == 0)
 		{
 			ft_free((void **)&trimmed);
 			char *args_mockup[3];
-			args_mockup[0] = "../minitalk"; // normal path
-			args_mockup[1] = "\0";
+			printf("Standard test with ../minitalk\n");
+			args_mockup[0] = ft_strdup("../minitalk"); // normal path
+			args_mockup[1] = ft_strdup("\0");
 			ft_cd(&my_env, args_mockup);
 			ft_pwd();
-			args_mockup[0] = "../subjects";
-			args_mockup[1] = "../minishell"; // too many arguments
-			args_mockup[2] = "\0";
-			ft_cd(&my_env, args_mockup);
-			args_mockup[0] = "~/Desktop/42/minishell"; // this is going to be OLDPWD
-			args_mockup[1] = "\0";
+			printf("Should be equal to: /home/psz/Desktop/42/minitalk\n");
+			printf("\nToo many arguments test\n");
+			args_mockup[0] = ft_strdup("../subjects");
+			args_mockup[1] = ft_strdup("../minishell"); // too many arguments
+			args_mockup[2] = ft_strdup("\0");
 			ft_cd(&my_env, args_mockup);
 			ft_pwd();
-			args_mockup[0] = "\0";
+			printf("Should print error and be equal to: /home/psz/Desktop/42/minitalk\n");
+			printf("\nTesting valid path with tilde ~\n");
+			args_mockup[0] = ft_strdup("~/Desktop/42/"); // this is going to be OLDPWD
+			args_mockup[1] = ft_strdup("\0");
+			ft_cd(&my_env, args_mockup);
+			ft_pwd();
+			printf("Should be equal to: /home/psz/Desktop/42\n");
+			printf("\nTesting invalid tilde ~ path\n");
+			args_mockup[0] = ft_strdup("/home/psz/~/Desktop/42");
+			args_mockup[1] = ft_strdup("\0");
+			ft_cd(&my_env, args_mockup);
+			ft_pwd();
+			printf("Should print error and be equal to /home/psz/Desktop/42\n");
+			printf("\nNo arguments test!\n");
+			args_mockup[0] = ft_strdup("\0");
 			ft_cd(&my_env, args_mockup);
 			ft_pwd(); // should be equal to HOME
+			printf("Should be equal to $HOME AKA /home/psz");
+			printf("\n$OLDPWD test!\n");
+			args_mockup[0] = ft_strdup("-");
 			ft_cd(&my_env, args_mockup);
-			ft_pwd(); // should be equal to /home/psz/Desktop/42/minishell AKA OLDPWD
-			args_mockup[0] = "thisisannonexistentpath";
-			args_mockup[1] = "\0";
+			ft_pwd(); 
+			printf("Should be equal to /home/psz/Desktop/42/ AKA OLDPWD\n");
+			printf("\nTesting non-existent path\n");
+			args_mockup[0] = ft_strdup("thisisannonexistentpath");
+			args_mockup[1] = ft_strdup("\0");
 			ft_cd(&my_env, args_mockup);
 			ft_pwd(); // the ft_cd call above should return an error and not change directory
+			printf("Should print error and be equal to /home/psz/Desktop/42\n");
 		}
 		else if (ft_strncmp(trimmed, "echo", 4) == 0)
 		{
