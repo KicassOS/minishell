@@ -7,6 +7,8 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
+# define INFILE 0
+# define OUTFILE 1
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2

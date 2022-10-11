@@ -20,7 +20,7 @@ void	ft_sigint_handler(int signal, siginfo_t *info, void *useless)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0);
+//		replace_line("", 0);
 		rl_redisplay();
 	}
 }

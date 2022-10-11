@@ -16,9 +16,9 @@ FLAGS = -Wall -Wextra -Werror -c
 
 NAME0 = minishell
 
-HEADER = minishell.h
+HEADER = minishell.h pipex.h
 
-SRC_MINISHELL = main.c utils.c signal.c
+SRC_MINISHELL = main2.c utils.c signal.c uts.c
 
 OBJECTS_MINISHELL = $(SRC_MINISHELL:.c=.o)
 
@@ -30,7 +30,7 @@ libft.a:
 	cp Libft/libft.h .
 
 $(NAME0): libft.a $(OBJECTS_MINISHELL)
-	$(CC) $(OBJECTS_MINISHELL) libft.a -lreadline $(HEADER) -o $(NAME0)
+	$(CC) $(OBJECTS_MINISHELL) libft.a -lreadline $(HEADER)
 
 %.o: %.c
 	 $(CC) $(FLAGS) $< -o $@
