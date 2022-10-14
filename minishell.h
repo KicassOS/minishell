@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/14 16:30:19 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/14 18:12:54 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@
 # define METACHARS " \t\n|<>"
 # define BLANKS " \t\n"
 # define OPERATORS "|<>"
+
+typedef struct s_data
+{
+	t_list	*env;
+	char	last_exit;
+	char	has_heredoc;
+}	t_data;
 
 char	ft_input_is_blank(char *input);
 void	ft_cleanup(int status, char **input, t_list **my_env);

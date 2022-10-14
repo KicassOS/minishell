@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/14 17:30:31 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/14 19:11:15 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,19 @@
 /*
   copies all environment variables into a linked list
 */
-t_list	*ft_copy_env(char **env)
+t_list	*ft_copy_env(char **env, t_data *data)
 {
 	int		i;
-	t_list	*current;
 	t_list	*head;
 
 	i = 0;
 	head = NULL;
 	while (env[i])
 	{
-		current = ft_lstnew(env[i]);
-		ft_lstadd_back(&head, current);
+		ft_add_env_value(&head, env[i]);
 		i++;
 	}
+	data->env = head;
 	return (head);
 }
 
@@ -59,7 +58,10 @@ void	ft_cleanup(int status, char **input, t_list **my_env)
 static void	ft_handle_input_null(char **input, t_list **my_env)
 {
 	if (*input == NULL)
+	{
+		printf("\n");
 		ft_cleanup(READLINE_ERROR, input, my_env);
+	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -67,20 +69,18 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	char	*trimmed;
 	t_list	*my_env;
+	t_data	data;
 
 	(void) ac;
 	(void) av;
 	(void) env;
-	my_env = ft_copy_env(env);
 	ft_setup_signal();
 	while (1)
 	{
-		printf("\nWaiting for input\n");
+		my_env = ft_copy_env(env, &data);
 		input = readline("minish> ");
-		printf("\nGot input: [$]%s[$]\n", input);
 		ft_handle_input_null(&input, &my_env);
 		trimmed = ft_trim_whitespace(input, 1);
-		printf("Trimmed input: [$]%s[$]\n", trimmed);
 
 		if (ft_strncmp(trimmed, "exit", 4) == 0)
 		{
@@ -174,7 +174,7 @@ int	main(int ac, char **av, char **env)
 			ft_free((void **)&trimmed);
 			ft_pwd();
 		}
-		if (ft_strlen(trimmed) > 0 && !ft_input_is_blank(trimmed))
+		if (ft_strlen(trimmed) > 0 && !ft_input_is_blank(trimmed) && data.has_heredoc == 0)
 			add_history(input);
 	}
 }
