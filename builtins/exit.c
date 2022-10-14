@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/06 05:33:21 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:00:52 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,10 @@ void	ft_free_env_list(t_list **lst)
   The exit code is a single byte, so the maximum value for it is 255
   Any values above that get wrapped around
 */
-void	ft_exit(char **input, char **trimmed, t_list **my_env)
+void	ft_exit(char **input, t_list **my_env)
 {
 	int	status_code;
 
-	status_code = ft_handle_exit_code(*trimmed);
-	rl_clear_history();
-	ft_free((void **) input);
-	ft_free((void **) trimmed);
-	ft_free_env_list(my_env);
-	exit(status_code);
+	status_code = ft_handle_exit_code(*input);
+	ft_cleanup(status_code, input, my_env);
 }

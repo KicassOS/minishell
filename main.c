@@ -6,14 +6,14 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/07 03:55:05 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/14 17:30:31 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-  copies all environment variables into my_env which is a linked list
+  copies all environment variables into a linked list
 */
 t_list	*ft_copy_env(char **env)
 {
@@ -31,6 +31,19 @@ t_list	*ft_copy_env(char **env)
 	}
 	return (head);
 }
+
+/*
+  Performs all cleanup after shell execution
+  Frees environment "my_env", frees input and exits with statuscode "status"
+*/
+void	ft_cleanup(int status, char **input, t_list **my_env)
+{
+	rl_clear_history();
+	ft_free((void **) input);
+	ft_free_env_list(my_env);
+	exit(status);
+}
+
 // THIS IS FOR TESTING THE ENV
 // void	ft_print_list(t_list *my_env)
 // {
@@ -43,6 +56,12 @@ t_list	*ft_copy_env(char **env)
 // 	return;
 // }
 
+static void	ft_handle_input_null(char **input, t_list **my_env)
+{
+	if (*input == NULL)
+		ft_cleanup(READLINE_ERROR, input, my_env);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
@@ -54,10 +73,19 @@ int	main(int ac, char **av, char **env)
 	(void) env;
 	my_env = ft_copy_env(env);
 	ft_setup_signal();
-	input = readline("minish> ");
-	trimmed = ft_trim_whitespace(input);
-	while (input && ft_strncmp(trimmed, "exit", 4) != 0)
+	while (1)
 	{
+		printf("\nWaiting for input\n");
+		input = readline("minish> ");
+		printf("\nGot input: [$]%s[$]\n", input);
+		ft_handle_input_null(&input, &my_env);
+		trimmed = ft_trim_whitespace(input, 1);
+		printf("Trimmed input: [$]%s[$]\n", trimmed);
+
+		if (ft_strncmp(trimmed, "exit", 4) == 0)
+		{
+			ft_exit(&trimmed, &my_env);
+		}
 		if (ft_strncmp(trimmed, "export", 6) == 0)
 		{
 			// CHANGE THE ARG MOCKUP ARRAY TO ACTUAL PARSING
@@ -146,11 +174,7 @@ int	main(int ac, char **av, char **env)
 			ft_free((void **)&trimmed);
 			ft_pwd();
 		}
-		add_history(input);
-		ft_free((void **) &input);
-		input = readline("minish> ");
-		trimmed = ft_trim_whitespace(input);
+		if (ft_strlen(trimmed) > 0 && !ft_input_is_blank(trimmed))
+			add_history(input);
 	}
-	ft_exit(&input, &trimmed, &my_env);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 20:35:22 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/07 03:07:28 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:29:57 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	*ft_malloc(size_t num_bytes)
   Trims starting and trailing whitespace of str
   "   exit    43  	  " produces "exit    43"
 */
-char	*ft_trim_whitespace(char *str)
+char	*ft_trim_whitespace(char *str, int flag)
 {
 	unsigned int	start;
 	size_t			end;
@@ -53,6 +53,8 @@ char	*ft_trim_whitespace(char *str)
 	while (str[end] && ft_is_space(str[end]))
 		end--;
 	trimmed = ft_substr(str, start, end - start + 1);
+	if (flag == 1)
+		ft_free((void **) &str); 
 	return (trimmed);
 }
 
@@ -68,4 +70,28 @@ int	ft_indexof_last_occurence(char *s, char c)
 		pos--;
 	}
 	return (-1);
+}
+
+char	ft_input_is_blank(char *input)
+{
+	size_t	i;
+	size_t	j;
+	char	*blanks;
+
+	if (input == NULL)
+		return (1);
+	i = 0;
+	blanks = BLANKS;
+	while (i < ft_strlen(input))
+	{
+		j = 0;
+		while (j < ft_strlen(blanks))
+		{
+			if (input[i] != blanks[j])
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }

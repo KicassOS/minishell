@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/12 16:26:31 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:30:19 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,17 @@
 # define MALLOC_ERROR 5
 # define CHDIR_ERROR 6
 # define PWD_ERROR 7
+# define READLINE_ERROR 8
+
+# define METACHARS " \t\n|<>"
+# define BLANKS " \t\n"
+# define OPERATORS "|<>"
+
+char	ft_input_is_blank(char *input);
+void	ft_cleanup(int status, char **input, t_list **my_env);
 
 /* utils.c */
-char	*ft_trim_whitespace(char *str);
+char	*ft_trim_whitespace(char *str, int flag);
 void	*ft_malloc(size_t num_bytes);
 
 /* environment_utils.c */
@@ -57,7 +65,7 @@ void	ft_echo(char *argument, char *flag);
 void	ft_pwd(void);
 char	ft_cd(t_list **my_env, char **args);
 char	ft_env(t_list **env);
-void	ft_exit(char **input, char **trimmed, t_list **my_env);
+void	ft_exit(char **input, t_list **my_env);
 char	ft_export(t_list **my_env, char **args);
 char	ft_unset(t_list *my_env, char **args);
 
