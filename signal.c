@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 22:10:06 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/14 19:14:33 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/15 14:47:36 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	ft_setup_signal(void)
 	s_sigaction.sa_sigaction = ft_sigint_handler;
 	s_sigaction.sa_flags = SA_SIGINFO;
 	s_sigaction_ignore.sa_handler = SIG_IGN;
+	s_sigaction_ignore.sa_flags = 0;
 	sigemptyset(&s_sigaction.sa_mask);
 	sigemptyset(&s_sigaction_ignore.sa_mask);
 	sigaction(SIGINT, &s_sigaction, NULL);
