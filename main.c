@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/14 19:11:15 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/15 14:02:05 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,6 @@ int	main(int ac, char **av, char **env)
 			ft_pwd();
 		}
 		if (ft_strlen(trimmed) > 0 && !ft_input_is_blank(trimmed) && data.has_heredoc == 0)
-			add_history(input);
+			add_history(trimmed);
 	}
 }
