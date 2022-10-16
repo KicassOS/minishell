@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/15 14:02:05 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/15 16:27:17 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,15 @@ void	ft_cleanup(int status, char **input, t_list **my_env)
 // 	return;
 // }
 
-static void	ft_handle_input_null(char **input, t_list **my_env)
+static void	ft_static_mainutil(char **input, t_list **my_env, t_data *data)
 {
 	if (*input == NULL)
 	{
 		printf("\n");
 		ft_cleanup(READLINE_ERROR, input, my_env);
 	}
+	if (ft_strlen(*input) > 0 && !ft_input_is_blank(*input) && data->has_heredoc == 0)
+			add_history(input);
 }
 
 int	main(int ac, char **av, char **env)
@@ -75,11 +77,12 @@ int	main(int ac, char **av, char **env)
 	(void) av;
 	(void) env;
 	ft_setup_signal();
+	data.last_exit = EXIT_SUCCESS;
 	while (1)
 	{
 		my_env = ft_copy_env(env, &data);
 		input = readline("minish> ");
-		ft_handle_input_null(&input, &my_env);
+		ft_static_mainutil(&input, &my_env, &data);
 		trimmed = ft_trim_whitespace(input, 1);
 
 		if (ft_strncmp(trimmed, "exit", 4) == 0)
@@ -174,7 +177,5 @@ int	main(int ac, char **av, char **env)
 			ft_free((void **)&trimmed);
 			ft_pwd();
 		}
-		if (ft_strlen(trimmed) > 0 && !ft_input_is_blank(trimmed) && data.has_heredoc == 0)
-			add_history(trimmed);
 	}
 }
