@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:54:42 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/12 16:24:46 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/23 02:23:13 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 /*
 	Returns a string of the type "name=value" after being passed those 2 args
+	name and value must be malloc'd strings
 	name and value must both exist as no checks are done about their existence
 */
-char	*ft_create_env_value(char *name, char *value)
+char	*ft_create_env_varstring(char *name, char *value)
 {
 	char	*env_value;
 	int		i;
@@ -44,6 +45,7 @@ char	*ft_create_env_value(char *name, char *value)
 
 /*
   Creates and adds an environment variable if it doesn't exist
+  content must be a malloc'd string
   Does not modify existing variables
   Returns the new_node if created, NULL otherwise
 */

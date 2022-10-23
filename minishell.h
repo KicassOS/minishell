@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/14 18:12:54 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/23 02:23:19 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define CHDIR_ERROR 6
 # define PWD_ERROR 7
 # define READLINE_ERROR 8
+# define ENV_ERROR 24
 
 # define METACHARS " \t\n|<>"
 # define BLANKS " \t\n"
@@ -52,6 +53,7 @@ t_list	*ft_find_env_variable(t_list **env, char *to_find);
 void	ft_delete_env_node(t_list **env, char *content_to_find);
 char	*ft_get_env_variable_value(t_list **my_env, char *needle);
 
+
 /* environment_utils_2.c */
 char	ft_is_valid_env_variable(char *variable);
 char	*ft_extract_variable_value(char *content);
@@ -60,7 +62,7 @@ t_list	*ft_overwrite_env_var_value(t_list **my_env, char *oldval, char *newval);
 t_list	*ft_modify_env_var_value(t_list **my_env, char *name, char *value);
 
 /* environment_utils_3.c */
-char	*ft_create_env_value(char *name, char *value);
+char	*ft_create_env_varstring(char *name, char *value);
 t_list	*ft_add_env_value(t_list **my_env, char *content);
 
 /* signal.c */

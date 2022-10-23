@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 05:03:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/06 23:47:51 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/22 23:09:21 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ char	*ft_extract_variable_name(char *content)
 	char	*name;
 
 	i = 0;
-	while (content[i] != '=')
+	while (content[i] && content[i] != '=')
 		i++;
-	if (i == 0)
+	if (i == 0 || i == (int) ft_strlen(content))
 		return (NULL);
 	name = ft_substr(content, 0, i);
 	return (name);
@@ -64,15 +64,18 @@ t_list	*ft_overwrite_env_var_value(t_list **my_env, char *oldval, char *newval)
 	{
 		node = ft_env_new_node((void *) newval);
 		ft_lstadd_back(my_env, node);
+		if (ft_strncmp(oldval, newval, ft_strlen(oldval)) != 0)
+			ft_free((void **) oldval);
 		return (node);
 	}
-	//ft_free((void **) &node->content); UNCOMMENT THIS ONCE THE PARSING IS DONE
+	ft_free((void **) &node->content);
 	node->content = newval;
 	return (node);
 }
 
 /*
   Modifies the node with name "name", changing its' content to "value"
+  name and value must be malloc'd strings
   Returns the address of the node in question
   If the node can't be found, creates a new node containing newval
   and adds it to my_env, then returns the node's address
@@ -83,18 +86,19 @@ t_list	*ft_modify_env_var_value(t_list **my_env, char *name, char *value)
 	char	*env_value;
 
 	node = ft_find_env_variable(my_env, name);
-	env_value = ft_create_env_value(name, value);
+	env_value = ft_create_env_varstring(name, value);
 	if (node == NULL)
 	{
 		node = ft_env_new_node((void *) env_value);
 		ft_lstadd_back(my_env, node);
 		return (node);
 	}
-	// 	ft_free((void **) &node->content); REMOVE COMMENT ONCE ALL NODE CONTENT IS MALLOCD
+	ft_free((void **) &node->content);
+	ft_free((void **) &name);
+	ft_free((void **) &value);
 	node->content = env_value;
 	return (node);
 }
-
 
 /*
 	Returns 1 if the node content string passed as argument is valid

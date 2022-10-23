@@ -6,25 +6,45 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/15 16:27:17 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/23 04:08:31 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+//ENV FOR TESTING
+void ft_env2(t_list **my_env)
+{
+	t_list *current;
+
+	current = *my_env;
+	printf("__________________________________LOGGING ENVIRONMENT__________________________\n");
+	while (current)
+	{
+		printf("[%s]\n", (char *) current->content);
+		current = current->next;
+	}
+	printf("__________________________________END OF ENVIRONMENT___________________________\n");
+}
 
 /*
   copies all environment variables into a linked list
 */
-t_list	*ft_copy_env(char **env, t_data *data)
+t_list	*ft_copy_env(char **env, t_list *head, t_data *data)
 {
 	int		i;
-	t_list	*head;
+	char	*copy;
 
 	i = 0;
-	head = NULL;
+	if (!head)
+	{
+		head = ft_env_new_node(env[i]);
+		i++;
+	}
 	while (env[i])
 	{
-		ft_add_env_value(&head, env[i]);
+		copy = ft_strdup(env[i]);
+		if (ft_add_env_value(&head, copy) == NULL)
+			ft_free((void **) &copy);
 		i++;
 	}
 	data->env = head;
@@ -55,15 +75,52 @@ void	ft_cleanup(int status, char **input, t_list **my_env)
 // 	return;
 // }
 
-static void	ft_static_mainutil(char **input, t_list **my_env, t_data *data)
+char	*ft_static_mainutil(char **input, t_list **my_env)
 {
+	char	*trimmed;
+
 	if (*input == NULL)
 	{
 		printf("\n");
 		ft_cleanup(READLINE_ERROR, input, my_env);
 	}
-	if (ft_strlen(*input) > 0 && !ft_input_is_blank(*input) && data->has_heredoc == 0)
-			add_history(input);
+	if (!(**input))
+	{
+		free(*input);
+		printf("\n");
+		trimmed = ft_malloc(1);
+		trimmed[0] = '\0';
+	}
+	else
+		trimmed = ft_trim_whitespace(*input, 1);
+	return (trimmed);
+}
+
+// static void	ft_free_args_mockup(char **args_mockup, int mockup_size)
+// {
+// 	// Delete this once testing is all done
+// 	printf("\nIN ARGS MOCKUP FREEING\n");
+// 	int i;
+// 	i = 0;
+// 	while (i < mockup_size - 1)
+// 	{
+// 		printf("Freeing args_mockup[%d]\n", i);
+// 		ft_free((void **) args_mockup[i]);
+// 		printf("Freed!\n");
+// 		i++;
+// 	}
+// 	printf("Freeing null-byte args_mockup[%d]\n", i);
+// 	ft_free((void **) args_mockup[i]); // free the null-byte
+// 	printf("Freed!\n");
+// 	printf("ARGSMOCKUP FREED!\n");
+// }
+
+
+void	ft_null_terminate_argmockup(char **args_mockup, int end)
+{
+	args_mockup[end - 1] = ft_malloc(2);
+	args_mockup[end - 1][0] = '\0';
+	args_mockup[end - 1][1] = '\0';
 }
 
 int	main(int ac, char **av, char **env)
@@ -78,104 +135,158 @@ int	main(int ac, char **av, char **env)
 	(void) env;
 	ft_setup_signal();
 	data.last_exit = EXIT_SUCCESS;
+	data.has_heredoc = 0;
+	my_env = NULL;
 	while (1)
 	{
-		my_env = ft_copy_env(env, &data);
+		my_env = ft_copy_env(env, my_env, &data);
 		input = readline("minish> ");
-		ft_static_mainutil(&input, &my_env, &data);
-		trimmed = ft_trim_whitespace(input, 1);
+		trimmed = ft_static_mainutil(&input, &my_env);
 
 		if (ft_strncmp(trimmed, "exit", 4) == 0)
 		{
 			ft_exit(&trimmed, &my_env);
 		}
-		if (ft_strncmp(trimmed, "export", 6) == 0)
-		{
-			// CHANGE THE ARG MOCKUP ARRAY TO ACTUAL PARSING
-			char *args_mockup[6];
-			ft_free((void **) &trimmed);
-			args_mockup[0] = "TEST=HAHA";
-			args_mockup[1] = "WORKING=YES";
-			args_mockup[2] = "UNSET_THIS=NOPE"; // duplicate check
-			args_mockup[3] = "UNSET_THIS=NOPE";
-			args_mockup[4] = "TEST=MODIFIED"; // modification test
-			args_mockup[5] = "\0";
-			ft_export(&my_env, args_mockup);
-			// ft_print_list(my_env);
-		}
 		else if (ft_strncmp(trimmed, "env", 3) == 0)
 		{
-			ft_free((void **) &trimmed);
 			ft_env(&my_env);
 		}
-		else if (ft_strncmp(trimmed, "unset", 5) == 0)
+		if (ft_strncmp(trimmed, "test_suite", 10) == 0) // delete this whole code block once testing is done
 		{
-			ft_free((void **) &trimmed);
-			char *args_mockup[3];
+			printf("----------Executing builtins test suite----------\n");
+			// printf("----------pwd----------\n");
+			// ft_pwd();
+			// printf("This should've simply displayed the correct current working directory");
+
+
+			// printf("\n\n----------env----------\n");
+			// ft_env(&my_env); // that's env testing done
+			// printf("\nThis should've displayed the environment\n");
+
+
+			printf("\n----------export----------\n");
+			char **args_mockup;
+			printf("Testing export with no arguments\n");
+			args_mockup = malloc(sizeof(char *) * 1);
+			ft_null_terminate_argmockup(args_mockup, 1);
+			ft_export(&my_env, args_mockup);
+			printf("This should've printed the environment declarations\n\n");
+
+			args_mockup = malloc(sizeof(char *) * 6);
+			args_mockup[0] = ft_strdup("TEST=HAHA");
+			args_mockup[1] = ft_strdup("WORKING=YES");
+			args_mockup[2] = ft_strdup("UNSET_THIS=NOPE"); // duplicate check
+			args_mockup[3] = ft_strdup("UNSET_THIS=NOPE");
+			args_mockup[4] = ft_strdup("TEST=MODIFIED"); // modification test
+			ft_null_terminate_argmockup(args_mockup, 6);
+			ft_export(&my_env, args_mockup);
+			ft_env2(&my_env);
+			printf("\nThis should've displayed the standard environment, with TEST=MODIFIED, WORKING=YES, UNSET_THIS=NOPE without duplicates\n");
+
+			printf("\n----------unset----------\n");
+			args_mockup = malloc(sizeof(char *) * 3);
 			args_mockup[0] = ft_strdup("TEST");
 			args_mockup[1] = ft_strdup("WORKING");
-			args_mockup[2] = ft_strdup("\0");
+			ft_null_terminate_argmockup(args_mockup, 3);
 			ft_unset(my_env, args_mockup);
+			ft_env(&my_env);
+			printf("\nThis should've displayed the environment WITHOUT TEST and WORKING because it removed them\n");
+
+
+			// printf("\n----------cd----------\n");
+			// printf("Standard test with ../minitalk\n");
+			// args_mockup = malloc(sizeof(char *) * 2);
+			// args_mockup[0] = ft_strdup("../minitalk"); // normal path
+			// ft_null_terminate_argmockup(args_mockup, 2);
+			// ft_cd(&my_env, args_mockup);
+			// ft_pwd();
+			// ft_free_args_mockup(args_mockup, 2);
+			// ft_free((void **) &args_mockup);
+			// printf("Should be equal to: /home/psz/Desktop/42/minitalk\n");
+
+			// printf("\nToo many arguments test\n");
+			// args_mockup = malloc(sizeof(char *) * 3);
+			// args_mockup[0] = ft_strdup("../subjects");
+			// args_mockup[1] = ft_strdup("../minishell"); // too many arguments
+			// ft_null_terminate_argmockup(args_mockup, 3);
+			// ft_cd(&my_env, args_mockup);
+			// ft_pwd();
+			// ft_free_args_mockup(args_mockup, 3);
+			// ft_free((void **) &args_mockup);
+			// printf("Should print error and be equal to: /home/psz/Desktop/42/minitalk\n");
+
+			// printf("\nTesting valid path with tilde ~\n");
+			// args_mockup = malloc(sizeof(char *) * 2);
+			// args_mockup[0] = ft_strdup("~/Desktop/42/"); // this is going to be OLDPWD
+			// ft_null_terminate_argmockup(args_mockup, 2);
+			// ft_cd(&my_env, args_mockup);
+			// ft_pwd();
+			// ft_free_args_mockup(args_mockup, 2);
+			// ft_free((void **) &args_mockup);
+			// printf("Should be equal to: /home/psz/Desktop/42\n");
+
+			// printf("\nTesting invalid tilde ~ path\n");
+			// args_mockup = malloc(sizeof(char *) * 2);
+			// args_mockup[0] = ft_strdup("/home/psz/~/Desktop/42");
+			// ft_null_terminate_argmockup(args_mockup, 2);
+			// ft_cd(&my_env, args_mockup);
+			// ft_pwd();
+			// ft_free_args_mockup(args_mockup, 2);
+			// ft_free((void **) &args_mockup);
+			// printf("Should print error and be equal to /home/psz/Desktop/42\n");
+
+			// printf("\nNo arguments test!\n");
+			// args_mockup = malloc(sizeof(char *) * 1);
+			// ft_null_terminate_argmockup(args_mockup, 1)
+			// ft_cd(&my_env, args_mockup);
+			// ft_pwd(); // should be equal to HOME
+			// printf("Should be equal to $HOME AKA /home/psz");
+			// ft_free_args_mockup(args_mockup, 1);
+			// ft_free((void **) &args_mockup);
+
+			// printf("\n$OLDPWD test!\n");
+			// args_mockup = malloc(sizeof(char *) * 2);
+			// args_mockup[0] = ft_strdup("-");
+			// ft_null_terminate_argmockup(args_mockup, 1);
+			// ft_cd(&my_env, args_mockup);
+			// ft_pwd(); 
+			// ft_free_args_mockup(args_mockup, 2);
+			// ft_free((void **) &args_mockup);
+			// printf("Should be equal to /home/psz/Desktop/42/ AKA OLDPWD\n");
+
+			// printf("\nTesting non-existent path\n");
+			// args_mockup = malloc(sizeof(char *) * 2);
+			// args_mockup[0] = ft_strdup("thisisannonexistentpath");
+			// ft_null_terminate_argmockup(args_mockup, 1);
+			// ft_cd(&my_env, args_mockup);
+			// ft_pwd(); // the ft_cd call above should return an error and not change directory
+			// ft_free_args_mockup(args_mockup, 2);
+			// ft_free((void **) &args_mockup);
+			// printf("Should print error and be equal to /home/psz/Desktop/42\n");
+
+
+			// printf("\n----------echo----------\n");
+			// printf("Testing -n flag\n");
+			// args_mockup = malloc(sizeof(char *) * 3);
+			// args_mockup[0] = ft_strdup("Hello World");
+			// args_mockup[1] = ("-n");
+			// ft_null_terminate_argmockup(args_mockup, 2);
+			// ft_echo(args_mockup[0], args_mockup[1]);
+			// printf("$----This should've printed Hello World WITHOUT a newline (the dollar is the end of the string\n");
+			// ft_free_args_mockup(args_mockup, 3);
+			// ft_free((void **) &args_mockup);
+
+			// printf("\nTesting WITHOUT the -n flag\n");
+			// args_mockup = malloc(sizeof(char *) * 2);
+			// args_mockup[0] = ft_strdup("Hello World");
+			// ft_null_terminate_argmockup(args_mockup, 1);
+			// ft_echo(args_mockup[0], args_mockup[1]);
+			// printf("$----This should've printed Hello World WITH a newline (the dollar is the end of the string\n");
+			// ft_free_args_mockup(args_mockup, 2);
+			// ft_free((void **) &args_mockup);
 		}
-		else if (ft_strncmp(trimmed, "cd", 2) == 0)
-		{
-			ft_free((void **)&trimmed);
-			char *args_mockup[3];
-			printf("Standard test with ../minitalk\n");
-			args_mockup[0] = ft_strdup("../minitalk"); // normal path
-			args_mockup[1] = ft_strdup("\0");
-			ft_cd(&my_env, args_mockup);
-			ft_pwd();
-			printf("Should be equal to: /home/psz/Desktop/42/minitalk\n");
-			printf("\nToo many arguments test\n");
-			args_mockup[0] = ft_strdup("../subjects");
-			args_mockup[1] = ft_strdup("../minishell"); // too many arguments
-			args_mockup[2] = ft_strdup("\0");
-			ft_cd(&my_env, args_mockup);
-			ft_pwd();
-			printf("Should print error and be equal to: /home/psz/Desktop/42/minitalk\n");
-			printf("\nTesting valid path with tilde ~\n");
-			args_mockup[0] = ft_strdup("~/Desktop/42/"); // this is going to be OLDPWD
-			args_mockup[1] = ft_strdup("\0");
-			ft_cd(&my_env, args_mockup);
-			ft_pwd();
-			printf("Should be equal to: /home/psz/Desktop/42\n");
-			printf("\nTesting invalid tilde ~ path\n");
-			args_mockup[0] = ft_strdup("/home/psz/~/Desktop/42");
-			args_mockup[1] = ft_strdup("\0");
-			ft_cd(&my_env, args_mockup);
-			ft_pwd();
-			printf("Should print error and be equal to /home/psz/Desktop/42\n");
-			printf("\nNo arguments test!\n");
-			args_mockup[0] = ft_strdup("\0");
-			ft_cd(&my_env, args_mockup);
-			ft_pwd(); // should be equal to HOME
-			printf("Should be equal to $HOME AKA /home/psz");
-			printf("\n$OLDPWD test!\n");
-			args_mockup[0] = ft_strdup("-");
-			ft_cd(&my_env, args_mockup);
-			ft_pwd(); 
-			printf("Should be equal to /home/psz/Desktop/42/ AKA OLDPWD\n");
-			printf("\nTesting non-existent path\n");
-			args_mockup[0] = ft_strdup("thisisannonexistentpath");
-			args_mockup[1] = ft_strdup("\0");
-			ft_cd(&my_env, args_mockup);
-			ft_pwd(); // the ft_cd call above should return an error and not change directory
-			printf("Should print error and be equal to /home/psz/Desktop/42\n");
-		}
-		else if (ft_strncmp(trimmed, "echo", 4) == 0)
-		{
-			ft_free((void **)&trimmed);
-			char *args_mockup[3];
-			args_mockup[0] = "Hello World";
-			args_mockup[1] = "-n";
-			args_mockup[2] = "\0";
-			ft_echo(args_mockup[0], args_mockup[1]);
-		}
-		else if (ft_strncmp(trimmed, "pwd", 3) == 0)
-		{
-			ft_free((void **)&trimmed);
-			ft_pwd();
-		}
+	if (ft_strlen(trimmed) > 0 && !ft_input_is_blank(trimmed) && data.has_heredoc == 0)
+			add_history(trimmed);
+	ft_free((void **) &trimmed);
 	}
 }

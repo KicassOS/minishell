@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 03:49:29 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/06 04:37:52 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/23 02:42:10 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_list	*ft_env_new_node(void *content)
 }
 
 /*
-  Returns a pointer to the t_list struct whose environment var name is to_find
+  Returns a pointer to the t_list struct whose variable name is to_find
   Returns NULL if it couldn't find the node
 */
 t_list	*ft_find_env_variable(t_list **env, char *to_find)
@@ -50,6 +50,30 @@ t_list	*ft_find_env_variable(t_list **env, char *to_find)
 }
 
 /*
+  Returns a pointer to the t_list struct whose variable name is 'name'
+  name must be a malloc'd string
+  Returns NULL if it didn't find the struct
+*/
+t_list	*ft_find_env_variable_by_name(t_list **env, char *name_tofind)
+{
+	t_list	*current;
+	char	*var_name;
+
+	current = *env;
+	while (current)
+	{
+		var_name = ft_extract_variable_name(current->content);
+		if (ft_strncmp(name_tofind, var_name, ft_strlen(name_tofind)) == 0)
+		{
+			ft_free((void **) var_name);
+			return (current);
+		}
+		current = current->next;
+	}
+	return (NULL);
+}
+
+/*
   Deletes environment node containing needle
   No error if the function couldn't find any such node
   Function argument MUST be non-NULL as no check is done on their existence
@@ -63,16 +87,17 @@ void	ft_delete_env_node(t_list **env, char *needle)
 	current = *env;
 	while (current)
 	{
-		if (ft_strncmp(current->next->content, needle, ft_strlen(needle)) == 0)
-		{
-			before_node = current;
-			current = current->next;
-			next_node = current->next; 
-    		//todo free node content too once we switch to malloc'd parsing
-			ft_free((void **)&current);
-			before_node->next = next_node;
-			return ;
-		}
+		if (current->next)
+			if (ft_strncmp(current->next->content, needle, ft_strlen(needle)) == 0)
+			{
+				before_node = current;
+				current = current->next;
+				next_node = current->next; 
+				ft_free((void **) &current->content);
+				ft_free((void **) &current);
+				before_node->next = next_node;
+				return ;
+			}
 		current = current->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/14 16:00:52 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/23 01:56:11 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,11 @@ void	ft_free_env_list(t_list **lst)
 {
 	t_list	*temp;
 
-	if (!lst)
-		return ;
 	while (*lst)
 	{
 		temp = ((*lst)->next);
-		// ft_free((void **) &lst->content) UNCOMMENT ONCE CONTENT IS MALLOC'D
-		ft_free((void **) lst);
+		// free((*lst)->content);
+		// ft_free((void **) *lst);
 		*lst = temp;
 	}
 }
