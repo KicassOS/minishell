@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/23 02:23:19 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/23 14:39:46 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	ft_cd(t_list **my_env, char **args);
 char	ft_env(t_list **env);
 void	ft_exit(char **input, t_list **my_env);
 char	ft_export(t_list **my_env, char **args);
-char	ft_unset(t_list *my_env, char **args);
+char	ft_unset(t_list **my_env, char **args);
 
 /* builtin_utils.c */
 int	ft_count_subarrays(char **args);

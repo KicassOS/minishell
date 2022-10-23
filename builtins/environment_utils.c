@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 03:49:29 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/23 02:42:10 by pszleper         ###   ########.fr       */
+/*   Updated: 2022/10/23 14:37:58 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,18 @@ void	ft_delete_env_node(t_list **env, char *needle)
 	while (current)
 	{
 		if (current->next)
+		{
 			if (ft_strncmp(current->next->content, needle, ft_strlen(needle)) == 0)
 			{
 				before_node = current;
 				current = current->next;
 				next_node = current->next; 
-				ft_free((void **) &current->content);
-				ft_free((void **) &current);
+				free(current->content);
+				free(current);
 				before_node->next = next_node;
 				return ;
 			}
+		}
 		current = current->next;
 	}
 }
