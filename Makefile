@@ -6,13 +6,13 @@
 #    By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 20:34:13 by pszleper          #+#    #+#              #
-#    Updated: 2022/10/06 23:24:00 by pszleper         ###   ########.fr        #
+#    Updated: 2023/01/18 17:33:28 by pszleper         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror -c
+FLAGS = -Wall -Wextra -Werror
 
 NAME0 = minishell
 
@@ -30,15 +30,15 @@ OBJECTS_MINISHELL = $(SRC_MINISHELL:.c=.o)
 all: libft.a $(NAME0)
 
 libft.a:
-	make -C Libft
-	cp Libft/libft.a .
-	cp Libft/libft.h .
+	make -C libft
+	cp libft/libft.a .
+	cp libft/libft.h .
 
 $(NAME0): libft.a $(OBJECTS_MINISHELL)
-	$(CC) $(OBJECTS_MINISHELL) libft.a -lreadline $(HEADER) -o $(NAME0)
+	$(CC) $(FLAGS) $(OBJECTS_MINISHELL) libft.a -lreadline $(HEADER) -o $(NAME0)
 
 %.o: %.c
-	 $(CC) $(FLAGS) $< -o $@
+	 $(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	rm -f */*.o
