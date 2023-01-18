@@ -6,13 +6,13 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:35:46 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/23 22:34:02 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:53:53 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_echo(char **args)
+char	ft_echo(char **args)
 {
 	if (args[1][0] && ft_strnstr(args[1], "-n", 2))
 		printf("%s", args[0]);
@@ -22,4 +22,5 @@ void	ft_echo(char **args)
 	free(args[1]);
 	free(args[2]);
 	free(args);
+	return (EXIT_SUCCESS);
 }

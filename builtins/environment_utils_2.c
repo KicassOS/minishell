@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 05:03:32 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/22 23:09:21 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/16 13:27:26 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,10 @@ char	ft_is_valid_env_variable(char *content)
 	while (content[i])
 	{
 		if (!ft_isalnum(content[i]) && content[i] != '_')
+		{
+			ft_printf("minishell: export: `%s` not a valid identifier\n", content);
 			return (0);
+		}
 		i++;
 	}
 	return (1);

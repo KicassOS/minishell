@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/23 22:22:05 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:52:46 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	ft_sigint_handler(int signal, siginfo_t *info, void *useless);
 void	ft_setup_signal(void);
 
 /* builtins */
-void	ft_echo(char **args);
-void	ft_pwd(void);
+char	ft_echo(char **args);
+char	ft_pwd(void);
 char	ft_cd(t_list **my_env, char **args);
 char	ft_env(t_list **env);
 void	ft_exit(char **input, t_list **my_env);
