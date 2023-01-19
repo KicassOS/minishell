@@ -6,7 +6,7 @@
 #    By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 20:34:13 by pszleper          #+#    #+#              #
-#    Updated: 2023/01/18 17:33:28 by pszleper         ###   ########.fr        #
+#    Updated: 2023/01/19 05:08:01 by pszleper         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ SRC_MINISHELL = main.c utils.c signal.c builtins/cd.c builtins/echo.c \
 
 OBJECTS_MINISHELL = $(SRC_MINISHELL:.c=.o)
 
+OBJECTS_DEBUG = $(addprefix debug/, $(SRC_MINISHELL:.c=.o))
+
 all: libft.a $(NAME0)
 
 libft.a:
@@ -40,6 +42,9 @@ $(NAME0): libft.a $(OBJECTS_MINISHELL)
 %.o: %.c
 	 $(CC) $(FLAGS) -c $< -o $@
 
+debug/%.o: %.c
+	 $(CC) $(FLAGS) -c -g $< -o $@
+
 clean:
 	rm -f */*.o
 
@@ -49,4 +54,13 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+debug: fclean libft.a $(OBJECTS_DEBUG)
+	$(CC) -g $(FLAGS) $(OBJECTS_DEBUG) libft.a -lreadline $(HEADER) -o debug/$(NAME0)
+
+valgrind: debug
+	valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all debug/minishell
+
+gdb: debug
+	gdb debug/minishell
+
+.PHONY: all clean fclean re debug valgrind gdb
