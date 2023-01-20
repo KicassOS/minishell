@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 05:03:32 by pszleper          #+#    #+#             */
-/*   Updated: 2023/01/16 13:27:26 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/20 20:13:21 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_list	*ft_overwrite_env_var_value(t_list **my_env, char *oldval, char *newval)
   Returns the address of the node in question
   If the node can't be found, creates a new node containing newval
   and adds it to my_env, then returns the node's address
+  Frees both the name and value strings passed as arguments
 */
 t_list	*ft_modify_env_var_value(t_list **my_env, char *name, char *value)
 {
@@ -90,6 +91,8 @@ t_list	*ft_modify_env_var_value(t_list **my_env, char *name, char *value)
 	if (node == NULL)
 	{
 		node = ft_env_new_node((void *) env_value);
+		ft_free((void **) &name);
+		ft_free((void **) &value);
 		ft_lstadd_back(my_env, node);
 		return (node);
 	}

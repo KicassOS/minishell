@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/23 22:38:23 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/20 20:53:05 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,7 @@ char	*ft_static_mainutil(char **input, t_list **my_env)
 
 void	ft_null_terminate_argmockup(char **args_mockup, int end)
 {
-	args_mockup[end - 1] = ft_malloc(2);
-	args_mockup[end - 1][0] = '\0';
-	args_mockup[end - 1][1] = '\0';
+	args_mockup[end - 1] = NULL;
 }
 
 int	main(int ac, char **av, char **env)
@@ -154,14 +152,14 @@ int	main(int ac, char **av, char **env)
 		if (ft_strncmp(trimmed, "test_suite", 10) == 0) // delete this whole code block once testing is done
 		{
 			printf("----------Executing builtins test suite----------\n");
-			// printf("----------pwd----------\n");
-			// ft_pwd();
-			// printf("This should've simply displayed the correct current working directory");
+			printf("----------pwd----------\n");
+			ft_pwd();
+			printf("This should've simply displayed the correct current working directory");
 
 
-			// printf("\n\n----------env----------\n");
-			// ft_env(&my_env); // that's env testing done
-			// printf("\nThis should've displayed the environment\n");
+			printf("\n\n----------env----------\n");
+			ft_env(&my_env); // that's env testing done
+			printf("\nThis should've displayed the environment\n");
 
 
 			printf("\n----------export----------\n");
@@ -268,7 +266,7 @@ int	main(int ac, char **av, char **env)
 			ft_null_terminate_argmockup(args_mockup_echo_1, 3);
 			ft_echo(args_mockup_echo_1);
 			printf("$");
-			printf("\nThis should've printed Hello World WITHOUT a newline (the dollar is the end of the string\n");
+			printf("\nThis should've printed Hello World WITHOUT a newline (the dollar is the end of the string)\n");
 
 			char **args_mockup_echo_2;
 			printf("\nTesting WITHOUT the -n flag\n");
@@ -279,7 +277,7 @@ int	main(int ac, char **av, char **env)
 			ft_null_terminate_argmockup(args_mockup_echo_2, 3);
 			ft_echo(args_mockup_echo_2);
 			printf("$");
-			printf("\nThis should've printed Hello World WITH a newline (the dollar is the end of the string\n");
+			printf("\nThis should've printed Hello World WITH a newline (the dollar is the end of the string)\n");
 		}
 	if (ft_strlen(trimmed) > 0 && !ft_input_is_blank(trimmed) && data.has_heredoc == 0)
 			add_history(trimmed);

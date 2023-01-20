@@ -6,29 +6,29 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 20:50:09 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/23 21:54:39 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/20 20:56:49 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-  sets the $PWD and $OLDPWD environment variables after cd has run
+  Sets the $PWD and $OLDPWD environment variables after cd has run
 */
-static char	ft_set_cd_env_vars(t_list **my_env, char **oldpwd_value)
+char	ft_set_cd_env_vars(t_list **my_env, char *oldpwd_value)
 {
 	char	*pwd_value;
 
 	pwd_value = ft_getcwd();
 	ft_modify_env_var_value(my_env, ft_strdup("PWD"), pwd_value);
-	ft_modify_env_var_value(my_env, ft_strdup("OLDPWD"), *oldpwd_value);
+	ft_modify_env_var_value(my_env, ft_strdup("OLDPWD"), oldpwd_value);
 	return (EXIT_SUCCESS);
 }
 
 /*
   Changes the directory, converting any tildes it finds to $HOME
 */
-static int	ft_true_path_chdir(t_list **my_env, char **args, char *origin_pwd)
+char	ft_true_path_chdir(t_list **my_env, char **args, char *origin_pwd)
 {
 	char	*true_path;
 	int		result;
@@ -37,8 +37,8 @@ static int	ft_true_path_chdir(t_list **my_env, char **args, char *origin_pwd)
 	if (!true_path)
 	{
 		ft_putstr_fd("cd: Invalid path\n", STDERR_FILENO);
-		free(args[0]);
 		ft_free((void **) &origin_pwd);
+		ft_free_args(args);
 		return (CHDIR_ERROR);
 	}
 	result = chdir(true_path);
@@ -49,15 +49,14 @@ static int	ft_true_path_chdir(t_list **my_env, char **args, char *origin_pwd)
 		perror("cd");
 		return (CHDIR_ERROR);
 	}
-	ft_free((void **) &origin_pwd);
 	ft_free((void **) &true_path);
-	return(ft_set_cd_env_vars(my_env, &origin_pwd));
+	return (ft_set_cd_env_vars(my_env, origin_pwd));
 }
 
 /*
   Gets called when cd has no arguments, and changes directory to $HOME
 */
-static char	ft_handle_no_destination(t_list **my_env, char **oldpwd)
+char	ft_handle_no_destination(t_list **my_env, char *oldpwd)
 {
 	int		result;
 	char	*home_value;
@@ -84,7 +83,7 @@ static char	ft_handle_no_destination(t_list **my_env, char **oldpwd)
 /*
   Gets called when '-' is passed to ft_cd, and changes directory to $OLDPWD
 */
-static char	ft_goto_oldpwd(t_list **my_env)
+char	ft_goto_oldpwd(t_list **my_env)
 {
 	char	*oldpwd_value;
 	char	*origin_pwd;
@@ -93,7 +92,7 @@ static char	ft_goto_oldpwd(t_list **my_env)
 	oldpwd_value = ft_get_env_variable_value(my_env, "OLDPWD");
 	if (oldpwd_value == NULL)
 	{
-		ft_putstr_fd("minish: cd: OLDPWD not set\n", 2);
+		ft_putstr_fd("minish: cd: OLDPWD not set\n", STDERR_FILENO);
 		return (CHDIR_ERROR);
 	}
 	origin_pwd = ft_getcwd();
@@ -119,14 +118,15 @@ char	ft_cd(t_list **my_env, char **args)
 	if (arg_count > 1)
 	{
 		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
+		ft_free_args(args);
 		return (EXIT_FAILURE);
 	}
 	origin_pwd = ft_getcwd();
 	if (arg_count == 0)
-		return (ft_handle_no_destination(my_env, &origin_pwd));
+		return (ft_handle_no_destination(my_env, origin_pwd));
 	if (ft_strncmp(args[0], "-", ft_strlen(args[0])) == 0)
 	{
-		ft_free((void **) &args[0]);
+		ft_free_args(args);
 		ft_free((void **) &origin_pwd);
 		return (ft_goto_oldpwd(my_env));
 	}
