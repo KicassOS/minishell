@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:35:46 by pszleper          #+#    #+#             */
-/*   Updated: 2023/01/18 14:53:53 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:29:04 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ char	ft_echo(char **args)
 		printf("%s", args[0]);
 	else
 		printf("%s\n", args[0]);
-	free(args[0]);
-	free(args[1]);
-	free(args[2]);
-	free(args);
+	ft_free_args(args);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 03:49:39 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/07 03:51:36 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:26:36 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,21 @@ char	*ft_tilde_to_home(t_list **my_env, char *path)
 		return (true_path);
 	}
 	return (path);
+}
+
+/*
+  This function frees the NULL-terminated arguments array
+  Takes the array pointer as argument
+*/
+void	ft_free_args(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+	{
+		ft_free((void **) &args[i]);
+		i++;
+	}
+	ft_free((void **) &args);
 }
