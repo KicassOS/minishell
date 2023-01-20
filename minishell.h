@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2023/01/18 14:52:46 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:28:22 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <signal.h>
 # include <errno.h>
 # include <unistd.h>
-# include "libft.h"
+# include "libft/libft.h"
 
 # define MALLOC_ERROR 5
 # define CHDIR_ERROR 6
@@ -45,6 +45,7 @@ void	ft_cleanup(int status, char **input, t_list **my_env);
 /* utils.c */
 char	*ft_trim_whitespace(char *str, int flag);
 void	*ft_malloc(size_t num_bytes);
+int		ft_indexof_last_occurence(char *s, char c);
 
 /* environment_utils.c */
 t_list	*ft_env_new_node(void *content);
@@ -79,10 +80,10 @@ char	ft_export(t_list **my_env, char **args);
 char	ft_unset(t_list **my_env, char **args);
 
 /* builtin_utils.c */
-int	ft_count_subarrays(char **args);
+int		ft_count_subarrays(char **args);
 char	*ft_getcwd(void);
 char	*ft_tilde_to_home(t_list **my_env, char *path);
-int	ft_indexof_last_occurence(char *s, char c);
+void	ft_free_args(char **args);
 
 
 #endif
