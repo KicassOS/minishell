@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
+/*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:54:00 by pszleper          #+#    #+#             */
-/*   Updated: 2023/01/20 16:28:22 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/21 04:33:48 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ void	ft_sigint_handler(int signal, siginfo_t *info, void *useless);
 void	ft_setup_signal(void);
 
 /* builtins */
-char	ft_echo(char **args);
-char	ft_pwd(void);
-char	ft_cd(t_list **my_env, char **args);
-char	ft_env(t_list **env);
+int		ft_echo(char **args);
+int		ft_pwd(void);
+int		ft_cd(t_list **my_env, char **args);
+int		ft_env(t_list **env);
 void	ft_exit(char **input, t_list **my_env);
-char	ft_export(t_list **my_env, char **args);
-char	ft_unset(t_list **my_env, char **args);
+int		ft_export(t_list **my_env, char **args);
+int		ft_unset(t_list **my_env, char **args);
 
 /* builtin_utils.c */
 int		ft_count_subarrays(char **args);

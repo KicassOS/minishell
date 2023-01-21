@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
+/*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 20:50:09 by pszleper          #+#    #+#             */
-/*   Updated: 2023/01/20 20:56:49 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/21 04:33:33 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
   Sets the $PWD and $OLDPWD environment variables after cd has run
 */
-char	ft_set_cd_env_vars(t_list **my_env, char *oldpwd_value)
+static int	ft_set_cd_env_vars(t_list **my_env, char *oldpwd_value)
 {
 	char	*pwd_value;
 
@@ -56,7 +56,7 @@ char	ft_true_path_chdir(t_list **my_env, char **args, char *origin_pwd)
 /*
   Gets called when cd has no arguments, and changes directory to $HOME
 */
-char	ft_handle_no_destination(t_list **my_env, char *oldpwd)
+static int	ft_handle_no_destination(t_list **my_env, char *oldpwd)
 {
 	int		result;
 	char	*home_value;
@@ -83,7 +83,7 @@ char	ft_handle_no_destination(t_list **my_env, char *oldpwd)
 /*
   Gets called when '-' is passed to ft_cd, and changes directory to $OLDPWD
 */
-char	ft_goto_oldpwd(t_list **my_env)
+static int	ft_goto_oldpwd(t_list **my_env)
 {
 	char	*oldpwd_value;
 	char	*origin_pwd;
@@ -109,7 +109,7 @@ char	ft_goto_oldpwd(t_list **my_env)
 	return (EXIT_SUCCESS);
 }
 
-char	ft_cd(t_list **my_env, char **args)
+int	ft_cd(t_list **my_env, char **args)
 {
 	int		arg_count;
 	char	*origin_pwd;

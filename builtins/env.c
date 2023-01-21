@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
+/*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:07:40 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/03 03:51:24 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/21 04:17:22 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	ft_env(t_list **env)
+int	ft_env(t_list **env)
 {
 	t_list	*current;
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
+/*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:53:56 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/23 15:01:24 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/21 04:17:45 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	ft_unset(t_list **my_env, char **args)
+int	ft_unset(t_list **my_env, char **args)
 {
 	int	arg_count;
 	int	i;

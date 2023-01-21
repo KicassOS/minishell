@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
+/*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:12 by pszleper          #+#    #+#             */
-/*   Updated: 2022/10/23 04:08:04 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/21 04:17:35 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	ft_main_loop(t_list **my_env, char **args, int i)
 }
 
 // add modification of env values
-char	ft_export(t_list **my_env, char **args)
+int	ft_export(t_list **my_env, char **args)
 {
 	int		arg_count;
 	int		i;
