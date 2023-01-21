@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:53:56 by pszleper          #+#    #+#             */
-/*   Updated: 2023/01/21 04:17:45 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/21 21:10:06 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_unset(t_list **my_env, char **args)
 		free(args[i]);
 		i++;
 	}
-	free(args[i]);
 	free(args);
 	return (EXIT_SUCCESS);
 }
