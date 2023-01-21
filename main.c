@@ -6,7 +6,7 @@
 /*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:53:12 by pszleper          #+#    #+#             */
-/*   Updated: 2023/01/20 20:53:05 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/21 16:02:54 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,10 +260,11 @@ int	main(int ac, char **av, char **env)
 			char **args_mockup_echo_1;
 			printf("\n----------echo----------\n");
 			printf("Testing -n flag\n");
-			args_mockup_echo_1 = malloc(sizeof(char *) * 3);
-			args_mockup_echo_1[0] = ft_strdup("Hello World");
-			args_mockup_echo_1[1] = ft_strdup("-n");
-			ft_null_terminate_argmockup(args_mockup_echo_1, 3);
+			args_mockup_echo_1 = malloc(sizeof(char *) * 4);
+			args_mockup_echo_1[0] = ft_strdup("-n");
+			args_mockup_echo_1[1] = ft_strdup("Hello");
+			args_mockup_echo_1[2] = ft_strdup("World");
+			ft_null_terminate_argmockup(args_mockup_echo_1, 4);
 			ft_echo(args_mockup_echo_1);
 			printf("$");
 			printf("\nThis should've printed Hello World WITHOUT a newline (the dollar is the end of the string)\n");
@@ -271,13 +272,21 @@ int	main(int ac, char **av, char **env)
 			char **args_mockup_echo_2;
 			printf("\nTesting WITHOUT the -n flag\n");
 			args_mockup_echo_2 = malloc(sizeof(char *) * 3);
-			args_mockup_echo_2[0] = ft_strdup("Hello World");
-			args_mockup_echo_2[1] = ft_malloc(1);
-			args_mockup_echo_2[1][0] = '\0';
+			args_mockup_echo_2[0] = ft_strdup("Hello");
+			args_mockup_echo_2[1] = ft_strdup("World");
 			ft_null_terminate_argmockup(args_mockup_echo_2, 3);
 			ft_echo(args_mockup_echo_2);
 			printf("$");
 			printf("\nThis should've printed Hello World WITH a newline (the dollar is the end of the string)\n");
+
+			char **args_mockup_echo_3;
+			printf("\n----------echo----------\n");
+			printf("Testing with no arguments\n");
+			args_mockup_echo_3 = malloc(sizeof(char *) * 1);
+			ft_null_terminate_argmockup(args_mockup_echo_3, 1);
+			ft_echo(args_mockup_echo_3);
+			printf("$");
+			printf("\nThis should print nothing, with a newline (the dollar is the end of the string\n");
 		}
 	if (ft_strlen(trimmed) > 0 && !ft_input_is_blank(trimmed) && data.has_heredoc == 0)
 			add_history(trimmed);

@@ -6,7 +6,7 @@
 #    By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 20:34:13 by pszleper          #+#    #+#              #
-#    Updated: 2023/01/20 20:34:42 by pszleper         ###   ########.fr        #
+#    Updated: 2023/01/21 16:18:17 by pszleper         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,8 @@ debug: $(LIBFT) create_debug_dir $(OBJECTS_DEBUG)
 	$(CC) -g $(FLAGS) $(OBJECTS_DEBUG) $(LIBFT) -lreadline $(HEADER) -o debug/$(NAME0)
 
 valgrind: debug
-	valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all $(DEBUG_MINISHELL)
+	rm -f valgrind_output.txt
+	valgrind --log-fd=1 --track-origins=yes --leak-check=full --show-leak-kinds=all $(DEBUG_MINISHELL) | tee valgrind_output.txt
 
 gdb: debug
 	gdb $(DEBUG_MINISHELL)
