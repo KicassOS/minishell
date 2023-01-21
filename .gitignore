@@ -4,4 +4,4 @@ minishell
 a.out
 *.gch
 libft.a
-valgrind_output.txt
+*.txt
