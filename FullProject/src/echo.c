@@ -28,6 +28,11 @@ int	ft_echo(char **args)
 
 	if (*args)
 		args++;
+	if (*args == NULL)
+	{
+		printf("\n");
+		return (EXIT_SUCCESS);
+	}
 	print_newline = 1;
 	i = 0;
 	if (!args)
