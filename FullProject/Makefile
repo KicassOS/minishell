@@ -37,12 +37,8 @@ SRCS :=	0_main.c \
 		env.c \
 		export.c \
 		echo.c \
-		5.4_builtins_echo_env_exit_pwd.c \
+		exit.c \
 		5.4_builtins_utils.c
-#		executor.c \
-#		heredoc.c \
-#		children.c \
-#		redirections.c
 CC := gcc
 CFLAGS := -g -Wall -Wextra -Werror
 LINK := -lreadline
