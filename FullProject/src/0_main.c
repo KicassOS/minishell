@@ -78,7 +78,7 @@ static void	static_ft_copy_environ(t_data *data)
 		data->myenv = NULL;
 }
 
-static int	static_handlecmd(char **command, t_data *data, t_slist **env2)
+static int	static_handlecmd(char **command, t_data *data)
 {
 	data->commands = NULL;
 	if (ft_expander(command, data))
@@ -89,42 +89,44 @@ static int	static_handlecmd(char **command, t_data *data, t_slist **env2)
 		return (-1);
 	data->mypipe[READ] = -1;
 	data->mypipe[WRITE] = -1;
-	ft_execute(data, env2);
+	ft_execute(data);
 	return (0);
 }
 
 static void	static_helpermain(char *input, t_data *data)
 {
 	if (input == NULL)
-		builtin_exit(data, NULL);
+		ft_builtin_exit(data);
 	if (ft_strlen(input) > 0)
 		add_history(input);
 }
 
 int	main(void)
 {
-	char			*input;
+//	char			*input;
 	char			**command;
 	t_data			data;
 	struct termios	termi;
-	t_slist			*env2 = NULL;
+//	t_slist			*env2 = NULL;
 
+	data.env = NULL;
+	data.input = NULL;
 	tcgetattr(STDIN_FILENO, &termi);
 	data.lastexitstatus = EXIT_SUCCESS;
 	static_ft_copy_environ(&data);
 	while (1)
 	{
-		env2 = ft_copy_env(env2); // assign this to data->my_env
+		data.env = ft_copy_env(data.env); // assign this to data->my_env
 		signal(SIGINT, &sighandler);
 		signal(SIGQUIT, SIG_IGN);
 		ctrlc(&termi, 0);
-		input = readline(PROMPT);
-		static_helpermain(input, &data);
-		command = ft_tokenizer(input, &data);
-		free(input);
+		data.input = readline(PROMPT);
+		static_helpermain(data.input, &data);
+		command = ft_tokenizer(data.input, &data);
+//		free(input);
 		if (command != NULL)
 		{
-			if (static_handlecmd(command, &data, &env2) == -1)
+			if (static_handlecmd(command, &data) == -1)
 				continue ;
 		}
 	}
