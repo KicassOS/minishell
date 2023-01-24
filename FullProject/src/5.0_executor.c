@@ -12,29 +12,29 @@
 
 #include "minishell.h"
 
-int	ft_execute_builtin(t_slist *cmdlist, t_data *data, t_slist **env2)
+int	ft_execute_builtin(t_slist *cmdlist, t_data *data)
 {
 	t_cmd	*cmd;
 	cmd = ((t_cmd *)cmdlist->content);
 	if (ft_strcmp(cmd->path, "echo"))
 		data->lastexitstatus = ft_echo(cmd->args);
 	else if (ft_strcmp(cmd->path, "cd"))
-		data->lastexitstatus = ft_cd(env2, cmd->args);
+		data->lastexitstatus = ft_cd(&data->env, cmd->args);
 	else if (ft_strcmp(cmd->path, "pwd"))
 		data->lastexitstatus = ft_pwd();
 	else if (ft_strcmp(cmd->path, "export"))
 	{
 		if ((cmd->args != NULL) && (cmd->args[1] == NULL))
-			data->lastexitstatus = ft_env(env2, true);
+			data->lastexitstatus = ft_env(&data->env, true);
 		else
-			data->lastexitstatus = ft_export(env2, cmd->args);
+			data->lastexitstatus = ft_export(&data->env, cmd->args);
 	}
 	else if (ft_strcmp(cmd->path, "unset"))
-		data->lastexitstatus = ft_unset(env2, cmd->args);
+		data->lastexitstatus = ft_unset(&data->env, cmd->args);
 	else if (ft_strcmp(cmd->path, "env"))
-		data->lastexitstatus = ft_env(env2, false);
+		data->lastexitstatus = ft_env(&data->env, false);
 	else
-		data->lastexitstatus = builtin_exit(data, cmd->args);
+		data->lastexitstatus = ft_builtin_exit(data);
 	if (data->commands->next != NULL)
 		ft_free_data_struct_content(data);
 	return (data->lastexitstatus);
@@ -69,7 +69,7 @@ int	ft_execute_builtin(t_slist *cmdlist, t_data *data, t_slist **env2)
 	((t_cmd *)cmdlist->content)->fd[WRITE] = data->mypipe[WRITE];
 }*/
 
-static void	static_ft_create_children(t_data *data, t_slist **env2)
+static void	static_ft_create_children(t_data *data)
 {
 	t_slist	*cmdlist;
 
@@ -90,7 +90,7 @@ static void	static_ft_create_children(t_data *data, t_slist **env2)
 		if (((t_cmd *)cmdlist->content)->pid == -1)
 			ft_exit(data);
 		else if (((t_cmd *)cmdlist->content)->pid == 0)
-			ft_childprocess(cmdlist, data, env2);
+			ft_childprocess(cmdlist, data);
 		close(data->mypipe[WRITE]);
 		close(data->tmp_fd[0]);
 		dup2(data->mypipe[READ], data->tmp_fd[0]);
@@ -99,7 +99,7 @@ static void	static_ft_create_children(t_data *data, t_slist **env2)
 	}
 }
 
-static void	static_ft_execute_builtin_in_parent(t_data *data, t_slist **env2)
+static void	static_ft_execute_builtin_in_parent(t_data *data)
 {
 	data->tmp_fd[1] = dup(STDOUT_FILENO);
 	if (data->tmp_fd[1] == -1)
@@ -119,7 +119,7 @@ static void	static_ft_execute_builtin_in_parent(t_data *data, t_slist **env2)
 			ft_printf_stderr("%s: %s\n", SHELL, strerror(errno));
 		close(((t_cmd *)data->commands->content)->fd[WRITE]);
 	}
-	ft_execute_builtin(data->commands, data, env2);
+	ft_execute_builtin(data->commands, data);
 	dup2(data->tmp_fd[0], STDIN_FILENO);
 	dup2(data->tmp_fd[1], STDOUT_FILENO);
 	close(data->tmp_fd[0]);
@@ -145,7 +145,7 @@ static void	static_ft_wait_processes(t_data *data)
 		data->lastexitstatus = WEXITSTATUS(data->lastexitstatus);
 }
 
-void	ft_execute(t_data *data, t_slist **env2)
+void	ft_execute(t_data *data)
 {
 	if (data->commands == NULL)
 		ft_exit(data);
@@ -155,10 +155,10 @@ void	ft_execute(t_data *data, t_slist **env2)
 		ft_exit_errno(data);
 	if (data->commands->next == NULL
 		&& ((t_cmd *)data->commands->content)->isbuiltin)
-			static_ft_execute_builtin_in_parent(data, env2);
+			static_ft_execute_builtin_in_parent(data);
 	else
 	{
-		static_ft_create_children(data, env2);
+		static_ft_create_children(data);
 		close(data->tmp_fd[0]);
 		static_ft_wait_processes(data);
 	}

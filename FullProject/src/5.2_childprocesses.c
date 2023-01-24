@@ -93,7 +93,7 @@ int	ft_child_piping(t_slist *cmdlist, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-void	ft_childprocess(t_slist *cmdlist, t_data *data, t_slist **env2)
+void	ft_childprocess(t_slist *cmdlist, t_data *data)
 {
 	char	*tmppath;
 
@@ -106,7 +106,7 @@ void	ft_childprocess(t_slist *cmdlist, t_data *data, t_slist **env2)
 	close(data->mypipe[WRITE]);
 	close(data->tmp_fd[0]);
 	if (((t_cmd *)cmdlist->content)->isbuiltin)
-		exit(ft_execute_builtin(cmdlist, data, env2));
+		exit(ft_execute_builtin(cmdlist, data));
 	else
 		static_ft_child_execve(cmdlist, data, tmppath);
 }
