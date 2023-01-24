@@ -111,11 +111,15 @@ typedef struct s_data
 {
 	int				lastexitstatus;
 	bool			hasheredoc;
+	struct s_slist			*env;
 	char			**myenv;  //add modified t_lsit from libft
 	struct s_slist	*commands;
 	int				i;
 	int				mypipe[2];
 	int				tmp_fd[2];
+	bool	input_allocated;
+	char	*input;
+	char	last_exit;
 }	t_data;
 
 //printfunctions:
@@ -133,6 +137,7 @@ void	ft_delre(char *file);
 void	ft_relstdelone(t_re *re, void (*del)(void *));
 void	ft_relstclear(t_re **re, void (*del)(void *));
 t_re	*ft_relstnew(int operator, char *file);
+
 int		ft_relstsize(t_re *re);
 void	ft_relstadd_back(t_re **re, t_re *new);
 void	ft_addto_re(t_re **re, int operator, char *file);
@@ -182,11 +187,11 @@ int		ft_splithelper(char **newstr, t_slist **cmdtable, t_data *data);
 int		ft_sortcmdret(char **command, t_cmd *simplecmd, t_data *data);
 
 //5_executor
-void	ft_execute(t_data *data, t_slist **env2);
+void	ft_execute(t_data *data);
 void	ft_get_heredoc_input(t_data *data);
-int		ft_execute_builtin(t_slist *cmdlist, t_data *data, t_slist **env2);
+int		ft_execute_builtin(t_slist *cmdlist, t_data *data);
 int		ft_child_redirect_std_fds(t_cmd *cmd, t_data *data);
-void	ft_childprocess(t_slist *cmdptr, t_data *data, t_slist **env2);
+void	ft_childprocess(t_slist *cmdptr, t_data *data);
 char	*ft_child_search_myenv(char **myenv, char *var);
 int		ft_child_piping(t_slist *cmdlist, t_data *data);
 
@@ -257,4 +262,5 @@ int	ft_env(t_slist **env, bool export);
 int	ft_export(t_slist **my_env, char **args);
 int	ft_echo(char **args);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+int	ft_builtin_exit(t_data *data);
 #endif
