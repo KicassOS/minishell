@@ -6,7 +6,7 @@
 /*   By: englot <englot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 08:16:00 by englot            #+#    #+#             */
-/*   Updated: 2022/02/21 21:11:35 by englot           ###   ########.fr       */
+/*   Updated: 2023/01/27 14:03:23 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,15 @@ int	ft_child_piping(t_slist *cmdlist, t_data *data)
 {
 	if ((dup2(((t_cmd *)cmdlist->content)->fd[READ], STDIN_FILENO)) == -1)
 		ft_exit_errno(data);
-	close(((t_cmd *)cmdlist->content)->fd[READ]);
+	if (((t_cmd *)cmdlist->content)->fd[READ] != -1)
+		close(((t_cmd *)cmdlist->content)->fd[READ]);
 	if ((dup2(((t_cmd *)cmdlist->content)->fd[WRITE], STDOUT_FILENO)) == -1)
 	{
 		if (errno != EBADF)
 			ft_exit_errno(data);
 	}
-	close(((t_cmd *)cmdlist->content)->fd[WRITE]);
+	if (((t_cmd *)cmdlist->content)->fd[WRITE] != -1)
+		close(((t_cmd *)cmdlist->content)->fd[WRITE]);
 	return (EXIT_SUCCESS);
 }
 
@@ -102,9 +104,13 @@ void	ft_childprocess(t_slist *cmdlist, t_data *data)
 	tmppath = NULL;
 	ft_child_redirect_std_fds(((t_cmd *)cmdlist->content), data);
 	ft_child_piping(cmdlist, data);
-	close(data->mypipe[READ]);
-	close(data->mypipe[WRITE]);
-	close(data->tmp_fd[0]);
+	if (data->mypipe[READ] != -1 && data->mypipe[WRITE] != -1
+			&& data->tmp_fd[0] != -1)
+	{
+		close(data->mypipe[READ]);
+		close(data->mypipe[WRITE]);
+		close(data->tmp_fd[0]);
+	}
 	if (((t_cmd *)cmdlist->content)->isbuiltin)
 		exit(ft_execute_builtin(cmdlist, data));
 	else

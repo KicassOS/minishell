@@ -6,7 +6,7 @@
 /*   By: englot <englot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 08:20:45 by englot            #+#    #+#             */
-/*   Updated: 2022/02/21 21:11:35 by englot           ###   ########.fr       */
+/*   Updated: 2023/01/27 14:06:15 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_execute_builtin(t_slist *cmdlist, t_data *data)
 		data->lastexitstatus = WEXITSTATUS(data->lastexitstatus);
 }*/
 
-/*static void	static_ft_set_pipe(t_slist *cmdlist, t_data *data)
+static void	static_ft_set_pipe(t_slist *cmdlist, t_data *data)
 {
 	if (cmdlist->next != NULL)
 	{
@@ -67,7 +67,7 @@ int	ft_execute_builtin(t_slist *cmdlist, t_data *data)
 	}
 	((t_cmd *)cmdlist->content)->fd[READ] = data->tmp_fd[0];
 	((t_cmd *)cmdlist->content)->fd[WRITE] = data->mypipe[WRITE];
-}*/
+}
 
 static void	static_ft_create_children(t_data *data)
 {
@@ -78,23 +78,20 @@ static void	static_ft_create_children(t_data *data)
 	cmdlist = data->commands;
 	while (cmdlist != NULL)
 	{
-		if (cmdlist->next != NULL)
-		{
-			if (pipe(data->mypipe) == -1)
-				ft_exit_errno(data);
-		}
-		((t_cmd *)cmdlist->content)->fd[READ] = data->tmp_fd[0];
-		((t_cmd *)cmdlist->content)->fd[WRITE] = data->mypipe[WRITE];
-//		static_ft_set_pipe(cmdlist, data);
+		static_ft_set_pipe(cmdlist, data);
 		((t_cmd *)cmdlist->content)->pid = fork();
 		if (((t_cmd *)cmdlist->content)->pid == -1)
 			ft_exit(data);
 		else if (((t_cmd *)cmdlist->content)->pid == 0)
 			ft_childprocess(cmdlist, data);
-		close(data->mypipe[WRITE]);
-		close(data->tmp_fd[0]);
-		dup2(data->mypipe[READ], data->tmp_fd[0]);
-		close(data->mypipe[READ]);
+		if (data->mypipe[WRITE] != -1 && data->mypipe[READ] != -1
+				&& data->tmp_fd[0] != -1)
+		{
+			close(data->mypipe[WRITE]);
+			close(data->tmp_fd[0]);
+			dup2(data->mypipe[READ], data->tmp_fd[0]);
+			close(data->mypipe[READ]);
+		}
 		cmdlist = cmdlist->next;
 	}
 }
@@ -159,7 +156,8 @@ void	ft_execute(t_data *data)
 	else
 	{
 		static_ft_create_children(data);
-		close(data->tmp_fd[0]);
+		if (data->tmp_fd[0] != 0)
+			close(data->tmp_fd[0]);
 		static_ft_wait_processes(data);
 	}
 //	ft_free_commandlist(&data->commands);
