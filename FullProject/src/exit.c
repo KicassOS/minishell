@@ -6,7 +6,7 @@
 /*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
-/*   Updated: 2023/01/23 05:56:30 by pszleper         ###   ########.fr       */
+/*   Updated: 2023/01/30 06:20:14 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_cleanup(t_data *data)
 //	rl_clear_history();
 	if (data->input_allocated)
 		free(data->input);
-	ft_free_commands(data->commands);
+	ft_free_commandlist(&data->commands);
 	ft_free_env_list(data->env);
 }
 

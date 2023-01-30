@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   0_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: englot <englot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 20:55:20 by englot            #+#    #+#             */
-/*   Updated: 2022/02/22 14:44:39 by englot           ###   ########.fr       */
+/*   Updated: 2023/01/30 06:20:48 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,16 @@ int	main(void)
 	static_ft_copy_environ(&data);
 	while (1)
 	{
-		data.env = ft_copy_env(data.env); // assign this to data->my_env
+		// ft_copy_env(data.myenv); // assign this to data->my_env
 		signal(SIGINT, &sighandler);
 		signal(SIGQUIT, SIG_IGN);
 		ctrlc(&termi, 0);
 		data.input = readline(PROMPT);
+		data.input_allocated = true;
 		static_helpermain(data.input, &data);
 		command = ft_tokenizer(data.input, &data);
-//		free(input);
+		free(data.input);
+		data.input_allocated = false;
 		if (command != NULL)
 		{
 			if (static_handlecmd(command, &data) == -1)

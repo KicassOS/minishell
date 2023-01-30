@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   5.0_executor.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: englot <englot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 08:20:45 by englot            #+#    #+#             */
-/*   Updated: 2023/01/27 14:06:15 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/01/30 06:18:29 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,6 @@ void	ft_execute(t_data *data)
 			close(data->tmp_fd[0]);
 		static_ft_wait_processes(data);
 	}
-//	ft_free_commandlist(&data->commands);
+	ft_free_commandlist(&data->commands);
 //	ft_env2(env2);
 }
