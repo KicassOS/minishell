@@ -15,6 +15,7 @@
 int	ft_execute_builtin(t_slist *cmdlist, t_data *data)
 {
 	t_cmd	*cmd;
+
 	cmd = ((t_cmd *)cmdlist->content);
 	if (ft_strcmp(cmd->path, "echo"))
 		data->lastexitstatus = ft_echo(cmd->args);
@@ -39,24 +40,6 @@ int	ft_execute_builtin(t_slist *cmdlist, t_data *data)
 		ft_free_data_struct_content(data);
 	return (data->lastexitstatus);
 }
-/*static void	static_ft_wait_processes(t_data *data)
-{
-	t_slist	*ptr;
-	int		count;
-
-	count = 1;
-	ptr = data->commands;
-	while (ptr != NULL)
-	{
-		waitpid(((t_cmd *)ptr->content)->pid, &data->lastexitstatus, 0);
-		ptr = ptr->next;
-		count++;
-	}
-	if (WTERMSIG(data->lastexitstatus))
-		data->lastexitstatus = WTERMSIG(data->lastexitstatus) + 128;
-	else if (WIFEXITED(data->lastexitstatus))
-		data->lastexitstatus = WEXITSTATUS(data->lastexitstatus);
-}*/
 
 static void	static_ft_set_pipe(t_slist *cmdlist, t_data *data)
 {
@@ -85,7 +68,7 @@ static void	static_ft_create_children(t_data *data)
 		else if (((t_cmd *)cmdlist->content)->pid == 0)
 			ft_childprocess(cmdlist, data);
 		if (data->mypipe[WRITE] != -1 && data->mypipe[READ] != -1
-				&& data->tmp_fd[0] != -1)
+			&& data->tmp_fd[0] != -1)
 		{
 			close(data->mypipe[WRITE]);
 			close(data->tmp_fd[0]);
@@ -152,7 +135,7 @@ void	ft_execute(t_data *data)
 		ft_exit_errno(data);
 	if (data->commands->next == NULL
 		&& ((t_cmd *)data->commands->content)->isbuiltin)
-			static_ft_execute_builtin_in_parent(data);
+		static_ft_execute_builtin_in_parent(data);
 	else
 	{
 		static_ft_create_children(data);
@@ -161,5 +144,4 @@ void	ft_execute(t_data *data)
 		static_ft_wait_processes(data);
 	}
 	ft_free_commandlist(&data->commands);
-//	ft_env2(env2);
 }

@@ -12,13 +12,6 @@
 
 #include "minishell.h"
 
-/*static char	*static_ft_append_commandname(char *path, char *str)
-{
-	ft_strappend2(&path, "/");
-	ft_strappend2(&path, str);
-	return (path);
-}*/
-
 static char	*static_ft_child_get_path(char *str, t_data *data)
 {
 	char		*ret;
@@ -37,14 +30,12 @@ static char	*static_ft_child_get_path(char *str, t_data *data)
 	{
 		paths[i] = ft_strappend(paths[i], "/");
 		paths[i] = ft_strappend(paths[i], str);
-//		paths[i] = static_ft_append_commandname(paths[i], str);
 		if (paths[i] == NULL)
 			ft_exit_errno(data);
 		if (access(paths[i], X_OK) != -1 && ret == NULL)
 			ret = paths[i++];
 		else
 			free(paths[i++]);
-//		i++;
 	}
 	free(paths);
 	return (ret);
@@ -105,7 +96,7 @@ void	ft_childprocess(t_slist *cmdlist, t_data *data)
 	ft_child_redirect_std_fds(((t_cmd *)cmdlist->content), data);
 	ft_child_piping(cmdlist, data);
 	if (data->mypipe[READ] != -1 && data->mypipe[WRITE] != -1
-			&& data->tmp_fd[0] != -1)
+		&& data->tmp_fd[0] != -1)
 	{
 		close(data->mypipe[READ]);
 		close(data->mypipe[WRITE]);
