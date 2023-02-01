@@ -42,7 +42,11 @@ void	ft_cleanup(t_data *data)
 {
 //	rl_clear_history();
 	if (data->input_allocated)
+	{
 		free(data->input);
+		data->input_allocated = false;
+	}
+	if (data->commands != NULL)
 	ft_free_commandlist(&data->commands);
 	ft_free_env_list(data->env);
 }
@@ -57,6 +61,6 @@ void	ft_cleanup(t_data *data)
 int	ft_builtin_exit(t_data *data)
 {
 	ft_cleanup(data);
-	exit(data->last_exit);
+	exit(data->lastexitstatus);
 	return (EXIT_SUCCESS);
 }
