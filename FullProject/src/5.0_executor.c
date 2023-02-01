@@ -142,8 +142,6 @@ void	ft_execute(t_data *data)
 		if (data->tmp_fd[0] != 0)
 			close(data->tmp_fd[0]);
 		static_ft_wait_processes(data);
-		ft_free_commandlist(&data->commands);
 	}
-//	if (data->commands != NULL)
-//	ft_free_commandlist(&data->commands);
+	ft_free_commandlist(&data->commands);
 }

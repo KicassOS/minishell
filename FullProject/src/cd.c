@@ -33,7 +33,7 @@ char	ft_true_path_chdir(t_slist **my_env, char **args, char *origin_pwd)
 	char	*true_path;
 	int		result;
 
-	true_path = ft_tilde_to_home(my_env, args[0]);
+	true_path = ft_tilde_to_home(my_env, ft_strdup(args[1]));
 	if (!true_path)
 	{
 		ft_putstr_fd("cd: Invalid path\n", STDERR_FILENO);
@@ -114,20 +114,17 @@ int	ft_cd(t_slist **my_env, char **args)
 	int		arg_count;
 	char	*origin_pwd;
 
-//	ft_printf("%s", );
-	if (*args)
-		args++;
 	arg_count = ft_count_subarrays(args);
-	if (arg_count > 1)
+	if (arg_count > 2)
 	{
 		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
 		ft_free_args(args);
 		return (EXIT_FAILURE);
 	}
 	origin_pwd = ft_getcwd();
-	if (arg_count == 0)
+	if (arg_count == 1)
 		return (ft_handle_no_destination(my_env, origin_pwd));
-	if (ft_strncmp(args[0], "-", ft_strlen(args[0])) == 0)
+	if (ft_strncmp(args[1], "-", ft_strlen(args[1])) == 0)
 	{
 		ft_free_args(args);
 		ft_free((void **) &origin_pwd);
