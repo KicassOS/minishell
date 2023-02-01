@@ -17,11 +17,11 @@ int	ft_execute_builtin(t_slist *cmdlist, t_data *data)
 	t_cmd	*cmd;
 
 	cmd = ((t_cmd *)cmdlist->content);
-	if (ft_strcmp(cmd->path, "echo"))
+	if (ft_strcmp(cmd->path, "echo") || ft_strcmp(cmd->path, "/bin/echo"))
 		data->lastexitstatus = ft_echo(cmd->args);
 	else if (ft_strcmp(cmd->path, "cd"))
 		data->lastexitstatus = ft_cd(&data->env, cmd->args);
-	else if (ft_strcmp(cmd->path, "pwd"))
+	else if (ft_strcmp(cmd->path, "pwd") || ft_strcmp(cmd->path, "/bin/pwd"))
 		data->lastexitstatus = ft_pwd();
 	else if (ft_strcmp(cmd->path, "export"))
 	{
@@ -32,7 +32,7 @@ int	ft_execute_builtin(t_slist *cmdlist, t_data *data)
 	}
 	else if (ft_strcmp(cmd->path, "unset"))
 		data->lastexitstatus = ft_unset(&data->env, cmd->args);
-	else if (ft_strcmp(cmd->path, "env"))
+	else if (ft_strcmp(cmd->path, "env") || ft_strcmp(cmd->path, "/bin/env"))
 		data->lastexitstatus = ft_env(&data->env, false);
 	else
 		data->lastexitstatus = ft_builtin_exit(data);
@@ -142,6 +142,8 @@ void	ft_execute(t_data *data)
 		if (data->tmp_fd[0] != 0)
 			close(data->tmp_fd[0]);
 		static_ft_wait_processes(data);
+		ft_free_commandlist(&data->commands);
 	}
-	ft_free_commandlist(&data->commands);
+//	if (data->commands != NULL)
+//	ft_free_commandlist(&data->commands);
 }
