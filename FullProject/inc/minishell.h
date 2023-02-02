@@ -159,7 +159,7 @@ int		ft_clean_tokens(t_slist **tokens, t_data *data);
 int		ft_expander(char **token, t_data *data);
 void	ft_determine_expansion_type(char **token, t_index *index,
 			t_slist **parts, t_data *data);
-int		ft_expand_var(char **str, int start, t_slist **list, char **myenv);
+int		ft_expand_var(char **str, int start, t_slist **list, t_slist **myenv);
 void	ft_create_part_list(char **token, t_index *index,
 			t_slist **parts, t_data *data);
 bool	ft_is_valid_char(const char c);
@@ -192,7 +192,7 @@ void	ft_get_heredoc_input(t_data *data);
 int		ft_execute_builtin(t_slist *cmdlist, t_data *data);
 int		ft_child_redirect_std_fds(t_cmd *cmd, t_data *data);
 void	ft_childprocess(t_slist *cmdptr, t_data *data);
-char	*ft_child_search_myenv(char **myenv, char *var);
+char	*ft_child_search_myenv(t_slist **my_env, char *var);
 int		ft_child_piping(t_slist *cmdlist, t_data *data);
 
 //6_exit
@@ -222,7 +222,7 @@ void	ft_dlstdel(void *content);
 int		ft_construct_dir(char **curpath, char *arg);
 
 //errorcleanup
-void	ft_exit_expander(t_slist **slist, char **token, char **myenv);
+void	ft_exit_expander(t_slist **slist, char **token, t_slist **my_env);
 int		ft_exit_tokenizer(t_data *data, t_slist **tokens);
 char	*ft_error_dlst(t_dlist **dlist);
 int		ft_builtin_errormessage(char *builtin, char *message);
