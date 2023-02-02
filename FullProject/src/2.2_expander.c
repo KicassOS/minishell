@@ -32,13 +32,13 @@ static void	static_ft_resolve_quote_case(char **token, t_index *index,
 	if (!(static_ft_has_closing_quote(token, index->i)))
 	{
 		index->i = index->i + ft_expand_var(token,
-			index->i, parts, data->myenv) + 2;
+			index->i, parts, &data->env) + 2;
 		index->pos = index->i;
 	}
 	else
 	{
 //		ft_printf_stderr("%s: bad sunstitution\n", SHELL);
-		ft_exit_expander(parts, token, data->myenv);
+		ft_exit_expander(parts, token, &data->env);
 	}
 }
 
@@ -86,7 +86,7 @@ void	ft_determine_expansion_type(char **token, t_index *index,
 	if ((*token)[index->i + 1] == '?')
 	{
 		if (static_ft_fetchexitcode(parts, data->lastexitstatus))
-			ft_exit_expander(parts, token, data->myenv);
+			ft_exit_expander(parts, token, &data->env);
 		index->i = index->i + 2;
 		index->pos = index->i;
 	}
@@ -98,7 +98,7 @@ void	ft_determine_expansion_type(char **token, t_index *index,
 	else if (ft_is_valid_char((*token)[index->i + 1]))
 	{
 		index->i = index->i + ft_expand_var(token,
-				index->i, parts, data->myenv);
+				index->i, parts, &data->env);
 		index->pos = index->i;
 	}
 	else if ((*token)[index->i + 1] == '{')

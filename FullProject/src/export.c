@@ -61,14 +61,15 @@ static void	ft_main_loop(t_slist **my_env, char **args, int i)
 	var_name = ft_extract_variable_name(args[i]);
 	if (!ft_find_env_variable(my_env, var_name))
 	{
-		new_node = ft_env_new_node((void *) args[i]);
+		new_node = ft_env_new_node((void *) ft_strdup(args[i]));
 		ft_lstadd_back(my_env, new_node);
 		ft_free((void **) &var_name);
 	}
 	else
 	{
-		ft_overwrite_env_var_value(my_env, var_name, args[i]);
+		ft_overwrite_env_var_value(my_env, var_name, ft_strdup(args[i]));
 		free(var_name);
+		var_name = NULL;
 	}
 }
 
@@ -78,11 +79,10 @@ int	ft_export(t_slist **my_env, char **args)
 	int		arg_count;
 	int		i;
 
-	if (*args)
-		args++;
-	if (!args || !args[0] || !args[0][0])
+	if (!args || !args[1] || !args[1][0])
 	{
 		ft_print_env_declarations(*my_env);
+		ft_free_args(args);
 		if (args && args[0])
 		{
 			free(args[0]);
@@ -91,7 +91,7 @@ int	ft_export(t_slist **my_env, char **args)
 		return (EXIT_SUCCESS);
 	}
 	arg_count = ft_count_subarrays(args);
-	i = 0;
+	i = 1;
 	while (i < arg_count)
 	{
 		ft_main_loop(my_env, args, i);

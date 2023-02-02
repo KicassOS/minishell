@@ -17,18 +17,15 @@ int	ft_unset(t_slist **my_env, char **args)
 	int	arg_count;
 	int	i;
 
-	if (*args)
-		args++;
 	arg_count = ft_count_subarrays(args);
-	i = 0;
+	i = 1;
 	while (i < arg_count)
 	{
 		ft_delete_env_node(my_env, args[i]);
-		free(args[i]);
+//		free(args[i]);
 		i++;
 	}
 //	free(args[i]);
 //	free(args);
-//	ft_env2(my_env);
 	return (EXIT_SUCCESS);
 }

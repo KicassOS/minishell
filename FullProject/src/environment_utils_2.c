@@ -91,6 +91,7 @@ t_slist	*ft_modify_env_var_value(t_slist **my_env, char *name, char *value)
 	if (node == NULL)
 	{
 		node = ft_env_new_node((void *) env_value);
+		printf("env utils 2 line 94 = %s\n", (char *)node->content);
 		ft_free((void **) &name);
 		ft_free((void **) &value);
 		ft_lstadd_back(my_env, node);

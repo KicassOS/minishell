@@ -20,11 +20,16 @@ t_slist	*ft_add_env_value(t_slist **my_env, char *content)
 	name = ft_extract_variable_name(content);
 	if (ft_find_env_variable(my_env, name))
 	{
-		ft_free((void **) &name);
+		free(name);
+		name = NULL;
+//		ft_free((void **) &name);
 		return (NULL);
 	}
 	new_node = ft_overwrite_env_var_value(my_env, content, content);
-	ft_free((void **) &name);
+	new_node->next = NULL;
+	free(name);
+	name = NULL;
+//	ft_free((void **) &name);
 	return (new_node);
 }
 
@@ -44,14 +49,18 @@ t_slist	*ft_copy_env(t_slist *head)
 	{
 		copy = ft_strdup(environ[i]);
 		if (ft_add_env_value(&head, copy) == NULL)
-			ft_free((void **) &copy);
+		{
+			free(copy);
+			copy = NULL;
+		}
+		//	ft_free((void **) &copy);
 		i++;
 	}
 //	data->env = head;
 	return (head);
 }
 
-static void	static_ft_copy_environ(t_data *data)
+/*static void	static_ft_copy_environ(t_data *data)
 {
 	extern char	**environ;
 	int			count;
@@ -76,7 +85,7 @@ static void	static_ft_copy_environ(t_data *data)
 	}
 	else
 		data->myenv = NULL;
-}
+}*/
 
 static int	static_handlecmd(char **command, t_data *data)
 {
@@ -113,10 +122,10 @@ int	main(void)
 	data.input = NULL;
 	tcgetattr(STDIN_FILENO, &termi);
 	data.lastexitstatus = EXIT_SUCCESS;
-	static_ft_copy_environ(&data);
+//	static_ft_copy_environ(&data);
 	while (1)
 	{
-		// ft_copy_env(data.myenv); // assign this to data->my_env
+		data.env = ft_copy_env(data.env); // assign this to data->my_env
 		signal(SIGINT, &sighandler);
 		signal(SIGQUIT, SIG_IGN);
 		ctrlc(&termi, 0);
@@ -124,8 +133,11 @@ int	main(void)
 		data.input_allocated = true;
 		static_helpermain(data.input, &data);
 		command = ft_tokenizer(data.input, &data);
-		free(data.input);
-		data.input_allocated = false;
+		if (data.input_allocated)
+		{
+			free(data.input);
+			data.input_allocated = false;
+		}
 		if (command != NULL)
 		{
 			if (static_handlecmd(command, &data) == -1)

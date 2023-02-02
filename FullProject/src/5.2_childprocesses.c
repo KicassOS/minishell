@@ -12,13 +12,37 @@
 
 #include "minishell.h"
 
+static char	**list_to_array(t_slist **list)
+{
+	char	**array;
+	t_slist	*current;
+	int	len;
+	int	n;
+	int	i;
+
+	current = *list;
+	i = 0;
+	n = ft_lstsize(current);
+	array = malloc(n * sizeof(char*));
+	while (current)
+	{
+		len = strlen((char *)current->content) + 1;
+		array[i] = malloc(len * sizeof(char));
+		strcpy(array[i], (char *)current->content);
+		current = current->next;
+		i++;
+	}
+	array[i] = NULL;
+	return array;
+}
+
 static char	*static_ft_child_get_path(char *str, t_data *data)
 {
 	char		*ret;
 	char		**paths;
 	int			i;
 
-	ret = ft_child_search_myenv(data->myenv, "PATH=");
+	ret = ft_child_search_myenv(&data->env, "PATH=");
 	if (ret == NULL)
 		return (NULL);
 	paths = ft_split(ret + ft_strlen("PATH="), ':');
@@ -52,7 +76,7 @@ static void	static_ft_child_execve(t_slist *cmdlist, t_data *data, char	*tmp)
 	if (((t_cmd *)cmdlist->content)->path != NULL)
 	{
 		if (execve(((t_cmd *)cmdlist->content)->path,
-				((t_cmd *)cmdlist->content)->args, data->myenv) == -1)
+				((t_cmd *)cmdlist->content)->args, list_to_array(&data->env)) == -1)
 		{
 			if (errno == ENOENT)
 				ft_printf_stderr("%s: %s %s\n", SHELL, "command not found:",

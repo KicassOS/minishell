@@ -35,7 +35,7 @@ static void	static_ft_step_through_token(char **token, t_data *data)
 		if (tmp != parts)
 			ft_strappend2((char **)&parts->content, tmp->content);
 		if (parts->content == NULL)
-			ft_exit_expander(&parts, token, data->myenv);
+			ft_exit_expander(&parts, token, &data->env);
 		tmp = tmp->next;
 	}
 	if (parts != NULL)
@@ -43,7 +43,7 @@ static void	static_ft_step_through_token(char **token, t_data *data)
 		free(*token);
 		*token = ft_strdup(parts->content);
 		if (*token == NULL)
-			ft_exit_expander(&parts, token, data->myenv);
+			ft_exit_expander(&parts, token, &data->env);
 		ft_lstclear(&parts, ft_del);
 	}
 }

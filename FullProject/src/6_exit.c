@@ -19,12 +19,12 @@ int	ft_exit_tokenizer(t_data *data, t_slist **tokens)
 	return (EXIT_FAILURE);
 }
 
-void	ft_exit_expander(t_slist **slist, char **token, char **myenv)
+void	ft_exit_expander(t_slist **slist, char **token, t_slist **my_env)
 {
 	ft_printf_stderr("%s: Error: %s\n", SHELL, strerror(errno));
 	ft_lstclear(slist, ft_del);
 	free(*token);
-	freedchar(&myenv);
+	ft_lstclear(my_env, ft_del);
 	exit (EXIT_FAILURE);
 }
 

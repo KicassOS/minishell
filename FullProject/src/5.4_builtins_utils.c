@@ -12,54 +12,23 @@
 
 #include "minishell.h"
 
-int	ft_get_myenv_index(char **myenv, char *var)
-{
-	int			i;
-
-	if (myenv == NULL)
-		return (ERROR);
-	i = 0;
-	while (myenv[i] != NULL)
-	{
-		if (!ft_strcmp_n(myenv[i], var, ft_strlen(var)))
-			return (i);
-		i++;
-	}
-	return (ERROR);
-}
-
 void	ft_dlstdel(void *content)
 {
 	free(content);
 }
 
-int	ft_exchange_envvar(int i, char **myenv, char *replacement)
+char	*ft_child_search_myenv(t_slist **my_env, char *var)
 {
-	char	*tmp;
+	t_slist	*current;
 
-	tmp = ft_strdup(replacement);
-	if (tmp == NULL)
-		return (ft_errormessage(strerror(errno)));
-	else
-	{
-		free(myenv[i]);
-		myenv[i] = tmp;
-	}
-	return (EXIT_SUCCESS);
-}
-
-char	*ft_child_search_myenv(char **myenv, char *var)
-{
-	int			i;
-
-	if (myenv == NULL)
+	if (*my_env == NULL)
 		return (NULL);
-	i = 0;
-	while (myenv[i] != NULL)
+	current = *my_env;
+	while (current != NULL)
 	{
-		if (!ft_strcmp_n(myenv[i], var, ft_strlen(var)))
-			return (myenv[i]);
-		i++;
+		if (!ft_strcmp_n((char *)current->content, var, ft_strlen(var)))
+			return ((char *)current->content);
+		current = current->next;
 	}
 	return (NULL);
 }

@@ -24,7 +24,7 @@ static void	static_ft_start_expansion(
 			tmp = ft_lstnew(ft_substr((*token),
 						index->pos, index->i - index->pos));
 			if (tmp == NULL || tmp->content == NULL)
-				ft_exit_expander(parts, token, data->myenv);
+				ft_exit_expander(parts, token, &data->env);
 			ft_lstadd_back(parts, tmp);
 			index->pos = index->i;
 		}
@@ -66,7 +66,7 @@ void	ft_create_part_list(char **token, t_index *index,
 	{
 		tmp = ft_lstnew(ft_substr((*token), index->pos, index->i - index->pos));
 		if (tmp == NULL || tmp->content == NULL)
-			ft_exit_expander(parts, token, data->myenv);
+			ft_exit_expander(parts, token, &data->env);
 		ft_lstadd_back(parts, tmp);
 	}
 }

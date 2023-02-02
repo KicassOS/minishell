@@ -31,14 +31,14 @@ static void	static_ft_trim_nonexisting(char **str, int i)
 	}
 }
 
-static int	static_ft_extract_var(int i, int len, t_slist **list, char **myenv)
+static int	static_ft_extract_var(int len, t_slist **list, t_slist *my_env)
 {
 	t_slist		*tmp;
 	int			diff;
 	char		*ptr;
 
-	diff = ft_strlen(myenv[i] + len + 1);
-	ptr = ft_substr(myenv[i], len + 1, diff);
+	diff = ft_strlen((char *)my_env->content + len + 1);
+	ptr = ft_substr((char *)my_env->content, len + 1, diff);
 	tmp = ft_lstnew(ptr);
 	if (tmp == NULL || tmp->content == NULL)
 		return (EXIT_FAILURE);
@@ -46,29 +46,29 @@ static int	static_ft_extract_var(int i, int len, t_slist **list, char **myenv)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_expand_var(char **token, int start, t_slist **parts, char **myenv)
+int	ft_expand_var(char **token, int start, t_slist **parts, t_slist **my_env)
 {
-	int			i;
 	int			len;
+	t_slist			*current;
 
-	i = 0;
-	while (myenv[i] != NULL)
+	current = *my_env;
+	while (current)
 	{
 		len = 0;
-		while (myenv[i][len] != '\0')
+		while (((char *)current->content)[len] != '\0')
 		{
-			if (myenv[i][len] == '='
+			if (((char *)current->content)[len] == '='
 				&& (!ft_is_valid_char((*token)[start + 1 + len])))
 			{
-				if (static_ft_extract_var(i, len, parts, myenv))
-					ft_exit_expander(parts, token, myenv);
+				if (static_ft_extract_var(len, parts, current))
+					ft_exit_expander(parts, token, my_env);
 				return (len + 1);
 			}
-			else if (myenv[i][len] != (*token)[start + 1 + len])
+			else if (((char *)current->content)[len] != (*token)[start + 1 + len])
 				break ;
 			len++;
 		}
-		i++;
+		current = current->next;
 	}
 	static_ft_trim_nonexisting(token, start);
 	return (0);

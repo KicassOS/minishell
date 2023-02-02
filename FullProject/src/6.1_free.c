@@ -63,7 +63,7 @@ void	ft_free_data_struct_content(t_data *data)
 {
 	if (data == NULL)
 		return ;
-	freedchar(&data->myenv);
+//	freedchar(&data->myenv);
 	ft_free_commandlist(&data->commands);
 }
 
