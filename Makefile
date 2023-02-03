@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+         #
+#    By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/08/16 20:34:13 by pszleper          #+#    #+#              #
-#    Updated: 2023/01/21 16:18:17 by pszleper         ###   ########.fr        #
+#    Created: 2023/02/03 17:58:27 by iazimzha          #+#    #+#              #
+#    Updated: 2023/02/03 18:07:53 by iazimzha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,16 +16,18 @@ FLAGS = -Wall -Wextra -Werror
 
 NAME0 = minishell
 
-HEADER = minishell.h
+HEADER = inc/minishell.h
 
 LIBFT = libft/libft.a
 
-SRC_MINISHELL = main.c utils.c signal.c builtins/cd.c builtins/echo.c \
-	builtins/env.c builtins/exit.c builtins/pwd.c builtins/export.c   \
-	builtins/unset.c builtins/builtin_utils.c                         \
-	builtins/environment_utils.c                                      \
-	builtins/environment_utils_2.c                                    \
-	builtins/environment_utils_3.c
+SRC_MINISHELL = $(addprefix src/, builtin_utils.c cd_utils.c env.c environment_utils.c \
+	executor_1.c executor_3.c exit.c expander_1.c expander_3.c \
+	export.c free_0.c free_2.c main_utils.c parser_1.c parser_3.c \
+	quote.c tokenizer_0.c tokenizer_2.c utils_0.c utils_2.c cd.c \
+	echo.c environment_utils_2.c executor_0.c executor_2.c \
+	executor_4.c expander_0.c expander_2.c export_2.c \
+	free_1.c main.c parser_0.c parser_2.c pwd.c signal.c \
+	tokenizer_1.c unset.c utils_1.c)
 
 OBJECTS_MINISHELL = $(SRC_MINISHELL:.c=.o)
 

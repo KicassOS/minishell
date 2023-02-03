@@ -1,71 +1,108 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: pszleper <pszleper@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/05/24 04:40:22 by pszleper          #+#    #+#              #
-#    Updated: 2022/08/22 01:25:15 by pszleper         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME := libft.a
+SRC_DIR := ./src/
+OBJ_DIR := ./obj/
+HEADER_DIR := ./inc/
+SRCS :=	ft_atoi.c \
+		ft_bzero.c \
+		ft_calloc.c \
+		ft_dlist1.c \
+		ft_dlist2.c \
+		ft_gnl.c \
+		ft_hexlen.c \
+		ft_isalnum.c \
+		ft_isalpha.c \
+		ft_isascii.c \
+		ft_isdigit.c \
+		ft_isnumber.c \
+		ft_isprint.c \
+		ft_itoa.c \
+		ft_lstadd_back.c \
+		ft_lstadd_front.c \
+		ft_lstclear.c \
+		ft_lstdelone.c \
+		ft_lstiter.c \
+		ft_lstlast.c \
+		ft_lstnew.c \
+		ft_lstremovenode.c \
+		ft_lstsize.c \
+		ft_memchr.c \
+		ft_memcmp.c \
+		ft_memcpy_c.c \
+		ft_memcpy.c \
+		ft_memmove.c \
+		ft_memset.c \
+		ft_numlen.c \
+		ft_printf_stderr.c \
+		ft_printf.c \
+		ft_putchar_fd.c \
+		ft_putcharret_fd.c \
+		ft_puteol_fd.c \
+		ft_putnbr_fd.c \
+		ft_putstr_fd.c \
+		ft_putstrret_fd.c \
+		ft_setcmp.c \
+		ft_split.c \
+		ft_strappend.c \
+		ft_strappend2.c \
+		ft_strcat_l.c \
+		ft_strchr_r.c \
+		ft_strchr.c \
+		ft_strcmp.c \
+		ft_strcmp_n.c \
+		ft_strcpy_l.c \
+		ft_strdup.c \
+		ft_striteri.c \
+		ft_strjoin.c \
+		ft_strlen.c \
+		ft_strmapi.c \
+		ft_strreplace.c \
+		ft_strrev.c \
+		ft_strstr_n.c \
+		ft_strtrim.c \
+		ft_substr.c \
+		ft_tolower.c \
+		ft_toupper.c
+OBJS := $(patsubst %.c,$(OBJ_DIR)%.o,$(SRCS))
+HEADERS := $(HEADER_DIR)*.h
+CC := gcc
+CFLAGS := -g -Wall -Werror -Wextra
+AR := ar
+ARFLAGS := rcs
+RED := \033[0;31m
+GREEN := \033[0;32m
+YELLOW := \033[0;33m
+BLUE := \033[0;34m
+NC := \033[0m
 
-CC = gcc
+all: $(NAME)
 
-AR = ar -rcs
+$(NAME): $(OBJ_DIR) $(OBJS) $(HEADERS)
+	@$(AR) $(ARFLAGS) $@ $(OBJS)
+	@echo "\n$(GREEN)$(NAME) created$(NC)"
 
-FLAGS = -Wall -Wextra -Werror -c
+$(OBJ_DIR):
+	@mkdir $(OBJ_DIR)
 
-NAME = libft.a
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADERS) ofilemessage
+	@$(CC) $(CFLAGS) -I$(HEADER_DIR) -c $< -o $@
+	@echo ".\c"
 
-SRC	=	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c	\
-		ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c			\
-		ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c		\
-		ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c ft_strnstr.c		\
-		ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c			\
-		ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c		\
-		ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c		\
-		ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c				\
-		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c			\
-		ft_lstmap.c ft_is_space.c ft_split_whitespace.c\
-		$(GNL_SRC) $(FT_PRINTF_SRC)
-
-OBJECTS = $(SRC:.c=.o)
-
-GNL_DIR = get_next_line/
-
-GNL_SRC = $(addprefix $(GNL_DIR), get_next_line.c get_next_line_utils.c)
-
-FT_PRINTF_DIR = ft_printf/
-
-FT_PRINTF_SRC = $(addprefix $(FT_PRINTF_DIR), ft_converters.c 		\
-				ft_numconverters.c ft_printf.c ft_putpointer.c 	\
-				ft_strutil.c)
-
-HEADERS =	libft.h
-
-all: echo_compiling_libft $(NAME)
-
-echo_compiling_libft:
-	@echo "Compiling Libft..."
-
-$(NAME): echo_compiling_libft $(OBJECTS)
-	@$(AR) $(NAME) $(OBJECTS) $(HEADERS)
-	@echo "Libft compiled!"
-
-%.o: %.c
-	@$(CC) $(FLAGS) $< -o $@
-
-.PHONY: all clean fclean re echo_compiling_libft
+ofilemessage:
+	@echo "compiling $(NAME)-object-files: \c"
 
 clean:
-	@rm -f *.o
-	@rm -f $(addprefix $(GNL_DIR), *.o)
-	@rm -f $(addprefix $(FT_PRINTF_DIR), *.o)
-	@echo "Cleaned the repo"
+	@rm -rf $(OBJS) *.dSYM
+	@echo "$(RED)$(NAME)-object-files deleted$(NC)"
+	@echo "$(RED)$(NAME)-dSYM-files deleted$(NC)"
 
-fclean: clean
+xclean:
 	@rm -f $(NAME)
-	@echo "Removed libft.a"
+	@echo "$(RED)$(NAME) deleted$(NC)"
+
+fclean: clean xclean
 
 re: fclean all
+
+.INTERMEDIATE: ofilemessage
+
+.PHONY: clean fclean all re
