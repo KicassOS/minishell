@@ -6,7 +6,7 @@
 /*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 13:51:39 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 18:48:08 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/03 19:16:00 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_execute_builtin(t_slist *cmdlist, t_data *data)
 	else if (ft_strcmp(cmd->path, "env") || ft_strcmp(cmd->path, "/bin/env"))
 		data->lastexitstatus = ft_env(&data->env, false);
 	else
-		data->lastexitstatus = ft_builtin_exit(data);
+		data->lastexitstatus = ft_exit(data, cmd->args);
 	if (data->commands->next != NULL)
 		ft_free_data_struct_content(data);
 	return (data->lastexitstatus);

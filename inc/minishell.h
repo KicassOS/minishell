@@ -6,7 +6,7 @@
 /*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 14:05:11 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 18:49:33 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/03 19:21:00 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,7 @@ int		ft_export(t_slist **my_env, char **args);
 int		ft_echo(char **args);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 int		ft_builtin_exit(t_data *data);
+int		ft_exit(t_data *data, char **args);
 void	ft_cleanup(t_data *data);
 void	ft_setup_signal(void);
 bool	ft_only_spacetabs(char *input);

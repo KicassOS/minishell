@@ -6,7 +6,7 @@
 /*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
-/*   Updated: 2023/02/03 18:06:14 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/03 19:21:17 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,22 @@ int	ft_builtin_exit(t_data *data)
 	}
 	ft_cleanup(data);
 	exit(data->lastexitstatus);
+	return (EXIT_SUCCESS);
+}
+
+int	ft_exit(t_data *data, char **args)
+{
+	int	parsed;
+	int	arg_count;
+
+	arg_count = ft_count_subarrays(args);
+	if (arg_count > 2)
+	{
+		ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	parsed = ft_atoi(args[1]);
+	data->lastexitstatus = parsed;
+	ft_builtin_exit(data);
 	return (EXIT_SUCCESS);
 }
