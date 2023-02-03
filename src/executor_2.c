@@ -6,7 +6,7 @@
 /*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 13:51:26 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 18:06:14 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:42:48 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	ft_child_piping(t_slist *cmdlist, t_data *data, int *f)
 		if (!f)
 			ft_exit_errno(data);
 		else
-			ft_exit(data);
+			ft_builtin_exit(data);
 	}
 	if (((t_cmd *)cmdlist->content)->fd[READ] != -1)
 		close(((t_cmd *)cmdlist->content)->fd[READ]);

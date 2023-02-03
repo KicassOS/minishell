@@ -6,7 +6,7 @@
 /*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 13:52:49 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 18:06:14 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:44:37 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,6 @@ t_re	*ft_relstnew(int operator, char *file)
 	return (result);
 }
 
-int	ft_relstsize(t_re *re)
-{
-	int		index;
-	t_re	*temp;
-
-	index = 1;
-	temp = re;
-	if (re == NULL)
-		return (0);
-	while (temp->next != NULL)
-	{
-		temp = temp->next;
-		index++;
-	}
-	return (index);
-}
-
 void	ft_relstadd_back(t_re **re, t_re *new)
 {
 	t_re	*temp;
@@ -76,9 +59,4 @@ void	ft_relstadd_back(t_re **re, t_re *new)
 	while ((*temp).next != NULL)
 		temp = (*temp).next;
 	(*temp).next = new;
-}
-
-void	ft_addto_re(t_re **re, int operator, char *file)
-{
-	ft_relstadd_back(re, ft_relstnew(operator, ft_strdup(file)));
 }

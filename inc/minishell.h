@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iazimzha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 14:05:11 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 17:04:41 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:49:33 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,16 @@
 # define MALLOC_ERROR 5
 # define CHDIR_ERROR 6
 # define PWD_ERROR 7
-# define READLINE_ERROR 8
-# define ENV_ERROR 24
 
-//CHARSETS
-# define METACHAR " \t\n|<>"
-# define BLANK " \t\n"
 # define OPERATOR "|<>"
-
-//VALUES
 # define NOTDEFINED 127
 # define SYNTAX 2
-# define LINUX_C 130
 # define PIPE 127
 # define SMALLER '\x1d'
 # define BIGGER '\x1c'
-
-//SHELLNAME
 # define SHELL "minishell"
-
-//PROMPTS
-# define PROMPT "minishell$ "
-# define HEREPROMPT "heredoc > "
+# define PROMPT "minish$ "
+# define HEREPROMPT "heredoc> "
 
 typedef enum e_enum
 {
@@ -79,8 +67,13 @@ typedef struct s_index
 	int			pos;
 }	t_index;
 
-// operator: redirectionoperator
-// filename resp. HERELIMITER
+/*
+  This struct represents a redirection
+  operator is >, < or <<
+  file is what's after the operator
+  herepipe is used for the heredoc
+  next points to the next redirection operator found
+*/
 typedef struct s_re
 {
 	int			operator;
@@ -89,9 +82,18 @@ typedef struct s_re
 	struct s_re	*next;
 }	t_re;
 
-// path: command(name) / relative path to command / absolute path to command
-// args: args[0] is the command(name)
-// fd[0] in fd[1] out
+/*
+  This struct represents a parsed command
+  Path is the path to the executable
+  args is an array of arguments
+  hasheredoc is true if a heredoc is present in the prompt, false otherwise
+  isbuiltin is true if the command being executed is a builtin (env, export...)
+  re is the redirection operator linked list, for all the I/O redirections 
+  inside the command
+  pid is the pid of the child process
+  fd is the pipe used to communicate between this command and the next one
+  fd[0] is in, fd[1] is out
+*/
 typedef struct s_cmd
 {
 	char	*path;
@@ -103,6 +105,19 @@ typedef struct s_cmd
 	int		fd[2];
 }	t_cmd;
 
+/*
+  This is the main structure of the program, it handles the safe freeing of all
+  allocated resources
+  lastexitstatus is the exit status of the command or pipe chain of commands
+  that was last executed
+  hasheredoc is true if the full prompt has a heredoc, this is used to check
+  if the prompt should be added to the shell's history
+  env is a linked list that represents the shell's environment
+  commands is also a linked list of parsed commands
+  mypipe and tmp_fd are 2 pipes used in the project
+  all the booleans say whether or not a specific block of memory was allocated
+  input is the prompt returned by the readline function
+*/
 typedef struct s_data
 {
 	int				lastexitstatus;
@@ -118,40 +133,19 @@ typedef struct s_data
 	char			*input;
 }	t_data;
 
-//printfunctions:
-void	ft_print_slist(t_slist *tokenlst);
-void	ft_printcharcmd(char **command);
-void	ft_printsimplenode(t_cmd *simplecmd);
-void	ft_printsimplecmd(t_slist *cmdtable);
-
-//utils
 void	ft_del(void *content);
 int		ft_strindexrev(const char *str, int c);
 int		ft_strindex(const char *str, int c);
-void	ft_addto_lst(t_slist **lst, char *str);
 void	ft_delre(char *file);
 void	ft_relstdelone(t_re *re, void (*del)(void *));
 void	ft_relstclear(t_re **re, void (*del)(void *));
 t_re	*ft_relstnew(int operator, char *file);
-
-int		ft_relstsize(t_re *re);
 void	ft_relstadd_back(t_re **re, t_re *new);
-void	ft_addto_re(t_re **re, int operator, char *file);
 
-//1_errorhandle:
-char	**ft_errorstr(t_data *data, char **finalcmd);
-int		ft_errorint(t_data *data);
-bool	ft_triple_re(t_slist *tokenlst, t_data *data);
-//t_slist	*ft_errortoken(char *s, t_slist **tokenlst);
-bool	ft_nonsense(char **command);
-char	*ft_quoteerror(t_data *data);
-
-//1_tokenizer:
 char	**ft_tokenizer(char *str, t_data *data);
 void	tokenize(char *str, t_data *data, t_slist **tokens);
 int		ft_clean_tokens(t_slist **tokens, t_data *data);
 
-//2_expander
 int		ft_expander(char **token, t_data *data);
 void	ft_determine_expansion_type(char **token, t_index *index,
 			t_slist **parts, t_data *data);
@@ -160,14 +154,10 @@ void	ft_create_part_list(char **token, t_index *index,
 			t_slist **parts, t_data *data);
 bool	ft_is_valid_char(const char c);
 
-//3_quote removal:
 void	ft_quoteremover(char **command);
 
-//4_parser:
 t_slist	*ft_parser(char **command, t_data *data);
-int		ft_initsimple(t_cmd *simplecmd, char **command, t_data *data);
 int		ft_sort_cmd(char **command, t_cmd *simplecmd, int y, t_data *data);
-bool	ft_checkbuiltin(char *commandpart);
 void	builtinflag(t_cmd *simplecmd);
 void	ft_cmdargs(char **command, t_cmd *simplecmd, int *x, int *y);
 void	ft_pathcmd(t_cmd *simplecmd, char **command, int *x, int *y);
@@ -180,9 +170,7 @@ bool	ft_syntaxcheck(t_data *data);
 bool	ft_emptystruct(t_slist *cmdtable, t_data *data);
 void	ft_freepipecount(char **command, char **newcmd, t_slist	*cmdtable);
 int		ft_splithelper(char **newstr, t_slist **cmdtable, t_data *data);
-int		ft_sortcmdret(char **command, t_cmd *simplecmd, t_data *data);
 
-//5_executor
 void	ft_execute(t_data *data);
 void	ft_get_heredoc_input(t_data *data);
 int		ft_execute_builtin(t_slist *cmdlist, t_data *data);
@@ -191,46 +179,14 @@ void	ft_childprocess(t_slist *cmdptr, t_data *data, int *flag);
 char	*ft_child_search_myenv(t_slist **my_env, char *var);
 int		ft_child_piping(t_slist *cmdlist, t_data *data, int *f);
 
-//6_exit
-void	ft_exit(t_data *data);
 void	ft_exit_errno(t_data *data);
 void	ft_free_data_struct_content(t_data *data);
 void	freedchar(char ***dchar);
 void	ft_free_commandlist(t_slist **commands);
 void	parser_freedchar(char ***dchar, int count);
 
-//7_signals
-void	ft_sigfunc_here_doc(int sig);
-void	ctrlc(struct termios *termi, int flag);
-void	sighandler(int sig);
-
-//builtins
-int		builtin_echo(char **args);
-//int		builtin_cd(char ***myenv, char **args);
-int		builtin_pwd(void);
-int		builtin_export(char ***myenv, char **args);
-int		builtin_unset(char **myenv, char **args);
-int		builtin_env(char **myenv, bool export);
-int		builtin_exit(t_data *data, char **args);
-int		ft_get_myenv_index(char **myenv, char *var);
-int		ft_exchange_envvar(int i, char **myenv, char *replacement);
-void	ft_dlstdel(void *content);
-int		ft_construct_dir(char **curpath, char *arg);
-
-//errorcleanup
 void	ft_exit_expander(t_slist **slist, char **token, t_slist **my_env);
 int		ft_exit_tokenizer(t_data *data, t_slist **tokens);
-char	*ft_error_dlst(t_dlist **dlist);
-int		ft_builtin_errormessage(char *builtin, char *message);
-int		ft_errormessage(char *message);
-
-// Debugging
-// # define PRINT_HERE()
-// (printf("In file %s, at line: %d\n", __FILE__, __LINE__))
-// void	ft_print_tokens(char **tokens, char *label);
-// void	ft_print_tokenlist(t_slist	**tokens);
-// void	ft_print_tokenarray(char **tokens);
-// void	ft_print_data(t_data *data);
 
 int		ft_cd(t_slist **my_env, char **args);
 char	*ft_get_env_variable_value(t_slist **my_env, char *needle);

@@ -6,7 +6,7 @@
 /*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 12:00:41 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 18:06:14 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:42:45 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	ft_execute(t_data *data)
 
 	flag = 0;
 	if (data->commands == NULL)
-		ft_exit(data);
+		ft_builtin_exit(data);
 	ft_get_heredoc_input(data);
 	data->tmp_fd[0] = dup(STDIN_FILENO);
 	if (data->tmp_fd[0] == -1)

@@ -6,16 +6,11 @@
 /*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 13:52:42 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 18:06:14 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:49:38 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	ft_addto_lst(t_slist **lst, char *str)
-{
-	ft_lstadd_back(lst, ft_lstnew(str));
-}
 
 int	ft_strindexrev(const char *str, int c)
 {

@@ -6,7 +6,7 @@
 /*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 13:49:16 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 18:06:14 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:42:52 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	ft_static_handlecmd(char **command, t_data *data)
 {
 	data->commands = NULL;
 	if (ft_expander(command, data))
-		ft_exit(data);
+		ft_builtin_exit(data);
 	ft_quoteremover(command);
 	data->commands = ft_parser(command, data);
 	if (data->commands == NULL || ft_emptystruct(data->commands, data))
