@@ -6,7 +6,7 @@
 /*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 14:05:11 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 19:21:00 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/03 20:00:47 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,6 @@ t_slist	*ft_env_new_node(void *content);
 char	*ft_create_env_varstring(char *name, char *value);
 t_slist	*ft_overwrite_env_var_value(t_slist **my_env,
 			char *oldval, char *newval);
-char	*ft_extract_variable_name(char *content);
 void	ft_env2(t_slist **my_env);
 int		ft_pwd(char **args);
 int		ft_unset(t_slist **my_env, char **args);
