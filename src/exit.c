@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:20:32 by pszleper          #+#    #+#             */
-/*   Updated: 2023/02/03 20:47:59 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/05 19:04:51 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 /*
   Performs all cleanup after shell execution
-  Frees environment "my_env", frees input and exits with statuscode "status"
+  Frees environment "my_env", frees input
 */
-
 void	ft_cleanup(t_data *data)
 {
 	if (data->input_allocated)
@@ -31,9 +30,8 @@ void	ft_cleanup(t_data *data)
 /*
   Clears the shell's history
   Frees input buffer
-  Exits the shell with the status code parsed by ft_handle_exit_code
-  The exit code is a single byte, so the maximum value for it is 255
-  Any values above that get wrapped around
+  Exits with either the status code given to the command or the exit code
+  of the last command who ran
 */
 int	ft_builtin_exit(t_data *data)
 {
@@ -47,6 +45,10 @@ int	ft_builtin_exit(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
+/*
+  Parses the input for any possible exit code, passes it to data struct if found
+  Calls ft_builtin_exit to perform all cleanup and exit with correct code
+*/
 int	ft_exit(t_data *data, char **args)
 {
 	int	parsed;

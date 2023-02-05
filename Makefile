@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+         #
+#    By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 17:58:27 by iazimzha          #+#    #+#              #
-#    Updated: 2023/02/03 18:50:06 by iazimzha         ###   ########.fr        #
+#    Updated: 2023/02/05 18:46:55 by pszleper         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ fclean: clean
 re: fclean all
 
 create_debug_dir:
-	mkdir -p debug/builtins
+	mkdir -p debug/src
 
 debug: $(LIBFT) create_debug_dir $(OBJECTS_DEBUG)
 	$(CC) -g $(FLAGS) $(OBJECTS_DEBUG) $(LIBFT) -lreadline $(HEADER) -o debug/$(NAME0)
