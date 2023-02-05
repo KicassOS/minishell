@@ -15,25 +15,20 @@
 static char	**lsttoarr(t_slist **list)
 {
 	char	**array;
-	t_slist	*current;
-//	int		len;
 	int		n;
 	int		i;
 
-	current = *list;
 	i = 0;
-	n = ft_lstsize(current);
+	n = ft_lstsize(*list);
 	array = malloc((n + 1) * sizeof(char *));
-//	if (array == NULL)
 //		ft_builtin_exit(data);
-	while (current)
+	while (*list)
 	{
-//		len = strlen((char *)current->content) + 1;
-		array[i] = ft_strdup(current->content);
-//		ft_strcpy_l(array[i], (char *)current->content, len);
-		current = current->next;
+		array[i] = ft_strdup((*list)->content);
+		(*list) = (*list)->next;
 		i++;
 	}
+//	ft_lstclear(&current, ft_del);
 	array[i] = NULL;
 	return (array);
 }
