@@ -16,7 +16,7 @@ static char	**lsttoarr(t_slist **list)
 {
 	char	**array;
 	t_slist	*current;
-	int		len;
+//	int		len;
 	int		n;
 	int		i;
 
@@ -24,11 +24,13 @@ static char	**lsttoarr(t_slist **list)
 	i = 0;
 	n = ft_lstsize(current);
 	array = malloc((n + 1) * sizeof(char *));
+//	if (array == NULL)
+//		ft_builtin_exit(data);
 	while (current)
 	{
-		len = strlen((char *)current->content) + 1;
-		array[i] = malloc(len * sizeof(char));
-		ft_strcpy_l(array[i], (char *)current->content, len);
+//		len = strlen((char *)current->content) + 1;
+		array[i] = ft_strdup(current->content);
+//		ft_strcpy_l(array[i], (char *)current->content, len);
 		current = current->next;
 		i++;
 	}
@@ -57,9 +59,12 @@ static char	*static_ft_child_get_path(char *str, t_data *data)
 		if (paths[i] == NULL)
 			ft_exit_errno(data);
 		if (access(paths[i], X_OK) != -1 && ret == NULL)
-			ret = paths[i++];
+			ret = paths[i];
 		else
-			free(paths[i++]);
+		{
+			free(paths[i]);
+		}
+		i++;
 	}
 	free(paths);
 	return (ret);
@@ -84,13 +89,15 @@ static void	static_ft_child_execve(t_slist *cmdlist, t_data *data, char	*tmp)
 			else
 				ft_printf_stderr("%s: %s %s\n", SHELL, strerror(errno),
 					((t_cmd *)cmdlist->content)->args[0]);
-			ft_free_data_struct_content(data);
+			ft_cleanup(data);
+//			ft_free_data_struct_content(data);
 			exit (NOTDEFINED);
 		}
 	}
 	ft_printf_stderr("%s: %s %s\n", SHELL, "command not found:",
 		((t_cmd *)cmdlist->content)->args[0]);
-	ft_free_data_struct_content(data);
+	ft_cleanup(data);
+//	ft_free_data_struct_content(data);
 	exit (NOTDEFINED);
 }
 
