@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 13:49:16 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 18:42:52 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/05 20:57:04 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+t_data	g_data;
 
 t_slist	*ft_add_env_value(t_slist **my_env, char *content)
 {
@@ -92,25 +94,24 @@ static int	ft_static_helpermain(t_data *data)
 int	main(void)
 {
 	char			**command;
-	t_data			data;
 
 	ft_setup_signal();
-	ft_setup_data(&data);
-	data.env = ft_copy_env(data.env);
-	data.env_allocated = true;
+	ft_setup_data(&g_data);
+	g_data.env = ft_copy_env(g_data.env);
+	g_data.env_allocated = true;
 	while (1)
 	{
-		data.input = readline("minish>");
-		if (ft_static_helpermain(&data))
+		g_data.input = readline("minish>");
+		if (ft_static_helpermain(&g_data))
 			continue ;
-		command = ft_tokenizer(data.input, &data);
-		if (data.input_allocated)
+		command = ft_tokenizer(g_data.input, &g_data);
+		if (g_data.input_allocated)
 		{
-			free(data.input);
-			data.input_allocated = false;
+			free(g_data.input);
+			g_data.input_allocated = false;
 		}
 		if (command != NULL)
-			if (ft_static_handlecmd(command, &data) == -1)
+			if (ft_static_handlecmd(command, &g_data) == -1)
 				continue ;
 	}
 	return (EXIT_SUCCESS);

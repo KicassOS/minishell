@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pszleper < pszleper@student.42.fr >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 14:05:11 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 20:00:47 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/05 20:57:43 by pszleper         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ typedef struct s_data
 	bool			input_allocated;
 	char			*input;
 }	t_data;
+
+extern t_data	g_data;
 
 void	ft_del(void *content);
 int		ft_strindexrev(const char *str, int c);
