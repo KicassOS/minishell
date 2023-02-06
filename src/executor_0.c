@@ -6,7 +6,7 @@
 /*   By: iazimzha <iazimzha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 12:00:41 by iazimzha          #+#    #+#             */
-/*   Updated: 2023/02/03 18:42:45 by iazimzha         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:39:43 by iazimzha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	static_ft_create_children(t_data *data, int *f)
 		}
 		else if (((t_cmd *)cmdlist->content)->pid == 0)
 			ft_childprocess(cmdlist, data, f);
-		if (data->mypipe[WRITE] != -1 && if data->tmp_fd[0] != -1
+		if (data->mypipe[WRITE] != -1 && data->tmp_fd[0] != -1
 			&& data->mypipe[READ] != -1)
 		{
 			close(data->mypipe[WRITE]);
