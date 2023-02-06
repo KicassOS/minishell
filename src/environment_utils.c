@@ -37,7 +37,7 @@ t_slist	*ft_find_env_variable(t_slist **env, char *to_find)
 	current = *env;
 	while (current)
 	{
-		var_name = ft_extract_variable_name(current->content);
+		var_name = ft_extract_variable_name_export(current->content);
 		if (ft_strncmp(var_name, to_find, ft_strlen(to_find)) == 0)
 		{
 			ft_free((void **) &var_name);
@@ -60,21 +60,18 @@ t_slist	*ft_find_env_variable_by_name(t_slist **env, char *name_tofind)
 	char	*current_name;
 
 	current = *env;
-	current_name = ft_extract_variable_name(current->content);
 	while (current)
 	{
-		if (ft_strlen(name_tofind) != ft_strlen(current_name))
-		{
-			free(current_name);
-			return (NULL);
-		}
-		if (ft_strcmp(name_tofind, current_name) == 0)
+		current_name = ft_extract_variable_name_export(current->content);
+		if (ft_strcmp(name_tofind, current_name) == true
+			&& ft_strlen(name_tofind) == ft_strlen(current_name))
 		{
 			free(current_name);
 			return (current);
 		}
 		current = current->next;
 	}
+	free(current_name);
 	return (NULL);
 }
 
