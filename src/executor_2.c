@@ -12,22 +12,26 @@
 
 #include "../inc/minishell.h"
 
-static char	**lsttoarr(t_slist **list)
+static char	**lsttoarr(t_slist **list, t_data *data)
 {
 	char	**array;
 	int		n;
 	int		i;
+	t_slist	*current;
 
 	i = 0;
-	n = ft_lstsize(*list);
+	current = *list;
+	n = ft_lstsize(current);
 	array = malloc((n + 1) * sizeof(char *));
-//		ft_builtin_exit(data);
-	while (*list)
+	if (array == NULL)
+		ft_builtin_exit(data);
+	while (current)
 	{
-		array[i] = ft_strdup((*list)->content);
-		(*list) = (*list)->next;
+		array[i] = ft_strdup(current->content);
+		current = current->next;
 		i++;
 	}
+//	current = list;
 //	ft_lstclear(&current, ft_del);
 	array[i] = NULL;
 	return (array);
@@ -67,6 +71,8 @@ static char	*static_ft_child_get_path(char *str, t_data *data)
 
 static void	static_ft_child_execve(t_slist *cmdlist, t_data *data, char	*tmp)
 {
+	char **arr = lsttoarr(&data->env, data);
+	int i = 0;
 	tmp = ((t_cmd *)cmdlist->content)->path;
 	if (ft_strchr(tmp, '/') == NULL)
 	{
@@ -76,7 +82,7 @@ static void	static_ft_child_execve(t_slist *cmdlist, t_data *data, char	*tmp)
 	if (((t_cmd *)cmdlist->content)->path != NULL)
 	{
 		if (execve(((t_cmd *)cmdlist->content)->path,
-				((t_cmd *)cmdlist->content)->args, lsttoarr(&data->env)) == -1)
+				((t_cmd *)cmdlist->content)->args, arr) == -1)
 		{
 			if (errno == ENOENT)
 				ft_printf_stderr("%s: %s %s\n", SHELL, "command not found:",
@@ -85,6 +91,15 @@ static void	static_ft_child_execve(t_slist *cmdlist, t_data *data, char	*tmp)
 				ft_printf_stderr("%s: %s %s\n", SHELL, strerror(errno),
 					((t_cmd *)cmdlist->content)->args[0]);
 			ft_cleanup(data);
+			while (arr[i])
+			{
+				free(arr[i]);
+				i++;
+			}
+			free(arr);
+//			ft_lstclear(&data->env, ft_del);
+//			freedchar(&arr);
+//			ft_free_commandlist(&data->env);
 //			ft_free_data_struct_content(data);
 			exit (NOTDEFINED);
 		}
@@ -92,6 +107,10 @@ static void	static_ft_child_execve(t_slist *cmdlist, t_data *data, char	*tmp)
 	ft_printf_stderr("%s: %s %s\n", SHELL, "command not found:",
 		((t_cmd *)cmdlist->content)->args[0]);
 	ft_cleanup(data);
+//	ft_lstclear(&data->env, ft_del);
+//	ft_free_commandlist(&data->env);
+//	ft_lstclear(&data->env, &static_ft_del);
+	freedchar(&arr);
 //	ft_free_data_struct_content(data);
 	exit (NOTDEFINED);
 }
@@ -135,4 +154,6 @@ void	ft_childprocess(t_slist *cmdlist, t_data *data, int *f)
 		exit(ft_execute_builtin(cmdlist, data));
 	else
 		static_ft_child_execve(cmdlist, data, tmppath);
+//	ft_cleanup(data);
+//	ft_lstclear(&data->env, ft_del);
 }

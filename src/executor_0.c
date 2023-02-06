@@ -33,11 +33,14 @@ static void	static_ft_create_children(t_data *data, int *f)
 		static_ft_set_pipe(cmdlist, data);
 		((t_cmd *)cmdlist->content)->pid = fork();
 		if (((t_cmd *)cmdlist->content)->pid == -1)
+		{
+			ft_lstclear(&data->env, ft_del);
 			ft_builtin_exit(data);
+		}
 		else if (((t_cmd *)cmdlist->content)->pid == 0)
 			ft_childprocess(cmdlist, data, f);
-		if (data->mypipe[WRITE] != -1 && data->mypipe[READ] != -1
-			&& data->tmp_fd[0] != -1)
+		if (data->mypipe[WRITE] != -1 && if data->tmp_fd[0] != -1
+			&& data->mypipe[READ] != -1)
 		{
 			close(data->mypipe[WRITE]);
 			close(data->tmp_fd[0]);
